@@ -11,7 +11,7 @@ body{
 }
 
 .email-input{
-    background-color: #0E2F2F;
+    background-color: darkslategray;
     width: 100%;
     font-family: arial;
     color: #FFFFFF;
@@ -24,7 +24,7 @@ body{
 }
 
 .password-input{
-    background-color: #0E2F2F;
+    background-color: darkslategray;
     width: 100%;
     color: #FFFFFF;
     font-family: arial;
@@ -56,7 +56,7 @@ body{
     margin: 8rem auto;
     border-radius: 20px;
     max-width: 500px;
-    background-color: #124747;
+    background-color: #0E2E2E;
 }
 
 .login-submit-button{

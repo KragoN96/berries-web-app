@@ -41,7 +41,7 @@ function HomePageMain() {
   }, [isMenuOpen]);
 
   return (
-    <div className="container">
+<div className="container">
       <div className="navigation-bar">
         <div className="topnav-left">
           <div className="logo">
@@ -101,16 +101,50 @@ function HomePageMain() {
         </div>
       </div>
       
-      <div className="login-table"></div>
-      
-      <div className="image">
-        <img 
-          src="/Pictures/login_phone.png" 
-          alt="Login Phone" 
-          className="img_login_phone" 
-        />
+  <div className="home-table">
+      <div className="box1">
+          <div className="box1-text">
+            <h2> City Universities </h2>
+            <h1> Lost &amp; Found </h1>
+            <p> Your trusted platform for lost and found items across city universities </p>
+              <div className="buttons-container">
+                <div className="reportbt">
+                  <Link to="/report-lost-item">
+                    <button className="report-lost-item-button"> Report Item </button>
+                  </Link>
+                </div>
+                <div className="viewbt">
+                  <Link to="/view-lost-items">
+                    <button className="view-lost-items-button"> View Items </button>
+                  </Link>
+                </div>
+              </div>
+          </div>
+          <div className="box1-image">
+            <img 
+              src="/Pictures/login_phone.png" 
+              alt="Login Phone" 
+              className="img_login_phone" 
+            />
+          </div>
+      </div>
+
+      <div className="box2">
+          <div className="text1-box2">
+            <h2> Report a lost item </h2>
+            <p> Use our form to report a lost item. We will help you try to recover it.</p>
+          </div>
+          <div className="text2-box2">
+            <h2> Browse found items </h2>
+            <p> Check the items that have been found. You may find your lost belongings. </p>
+          </div>
+          <div className="text3-box2">
+            <h2> Contact assistance </h2>
+            <p> Get in touch with our support team for any questions, assistance, or feedback. </p>
+          </div>
       </div>
     </div>
+</div>
   );
 }
 

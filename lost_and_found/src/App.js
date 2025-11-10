@@ -8,6 +8,8 @@ import Contact from './pages/contact-page';
 import News from './pages/news-page';
 import ForgotPassword from './pages/forgot-password';
 import Register from './pages/register'
+import ReportItem from './pages/report-lost-item';
+import ViewItems from './pages/view-lost-items';
 
 
 function App(){
@@ -25,6 +27,8 @@ function App(){
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/news-page" element={<News />} />
+        <Route path="/report-lost-item" element={<ReportItem />} />
+        <Route path="/view-lost-items" element={<ViewItems />} />
 
 
         {/* 404 Page not found */}

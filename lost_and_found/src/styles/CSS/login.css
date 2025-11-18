@@ -1,108 +1,249 @@
-body{
-    background-color: darkslategray;
+.container{
+    background-color: #1A202C;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-page {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    background: #2D3748;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    min-height: 600px;
+}
+
+/* Left illustration panel */
+.illustration-panel {
+    width: 45%;
+    background: linear-gradient(135deg, #2C7A7B 0%, #285E61 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.illustration-content {
+    text-align: center;
+    color: white;
+}
+
+.illustration-content h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.illustration-content p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+.illustration-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 350px;
+    object-fit: contain;
+}
+
+/* Right login form panel */
+.login-container{
+    width: 55%;
+    padding: 3rem 2.5rem;
+    background-color: #2D3748;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .login-welcome-message{
-    font-family: Arial;
-    color: white;
-    padding-top: 0.3rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #E2E8F0;
     text-align: center;
-
+    margin-bottom: 2rem;
 }
 
-.email-input{
-    background-color: darkslategray;
-    width: 100%;
-    font-family: arial;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    padding: 12px 14px;
-    box-sizing: border-box;
-    transition: box-shadow 15s ease, background .15s ease;
+.login-welcome-message h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #E2E8F0;
+    margin-bottom: 0.5rem;
 }
 
-.password-input{
-    background-color: darkslategray;
-    width: 100%;
-    color: #FFFFFF;
-    font-family: arial;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    padding: 12px 14px;
-    box-sizing: border-box;
-    transition: box-shadow 15s ease, background .15s ease;
-}
-
-.email-input:focus, .password-input:focus {
-    box-shadow: 0 0 0 2px rgba (46, 189,.35);
+.login-welcome-message h3 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #A0AEC0;
 }
 
 .credentials-input{
-    font-family: Arial;
-    color: white;
-    padding-top: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #E2E8F0;
     display: block;
-    font-size: 14px;
-    margin: 14px 0 6px;
 }
 
+.credentials-input label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 1.2rem 0 0.5rem;
+    color: #CBD5E0;
+}
 
-.login-container{
-    padding: 2rem;
-    padding-bottom: 5rem;
-    margin: 8rem auto;
-    border-radius: 20px;
-    max-width: 500px;
-    background-color: #0E2E2E;
+.email-input, .password-input{
+    background-color: #1A202C;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #E2E8F0;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    border: 2px solid #4A5568;
+    outline: none;
+    padding: 14px 16px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-input-wrapper .password-input {
+    padding-right: 45px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #A0AEC0;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: #4ECDC4;
+}
+
+.email-input::placeholder, .password-input::placeholder {
+    color: #718096;
+}
+
+.email-input:focus, .password-input:focus {
+    border-color: #4ECDC4;
+    background-color: #1A202C;
 }
 
 .login-submit-button{
-    color:white;
-    background-color: #04AA6D;
+    color: white;
+    background-color: #4ECDC4;
     border-radius: 10px;
     border: none;
-    float: right;
+    width: 100%;
     text-decoration: none;
-    padding: 8px 200px;
-    margin-top: 20px;
-    margin-right: 30px;
-    font-size: 1rem;
-    transition-duration: 0.4s;
-
+    padding: 14px 20px;
+    margin-top: 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.loginbt:hover .login-submit-button{
-        background-color: #219052;
-        border-radius: 5px;
-        border-radius: 5px 225px;
+.login-submit-button:hover{
+    background-color: #2C7A7B;
+    transform: translateY(-1px);
+}
 
+.login-submit-button:active{
+    transform: translateY(0);
+}
+
+.forgot-password-link {
+    text-align: right;
+    margin-top: 0.8rem;
 }
 
 .forgot-password-link a {
-    color: white;
+    color: #4ECDC4;
     text-decoration: none;
-    margin-left: 385px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .forgot-password-link a:hover{
-    color:lightgray;
+    color: #81E6D9;
+    text-decoration: underline;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #4A5568;
 }
 
 .register-link a {
-        color: white;
-        text-decoration: none;
-        margin-left: 185px;
+    color: #A0AEC0;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
 }
 
 .register-link a:hover{
-    color:lightgray;
+    color: #4ECDC4;
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .login-page {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .illustration-panel {
+        width: 100%;
+        min-height: 250px;
+        padding: 2rem;
+    }
+    
+    .illustration-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .illustration-content p {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
+    
+    .illustration-image {
+        max-height: 200px;
+    }
+    
+    .login-container {
+        width: 100%;
+        padding: 2rem 1.5rem;
+    }
 }
 
 .border_navigation{
-
     border-color: white;
     border: 100px 200px;
     display: none;

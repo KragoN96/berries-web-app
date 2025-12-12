@@ -1,0 +1,21 @@
+{
+  "name": "lost_and_found_comp-master",
+  "version": "1.0.0",
+  "description": "--> Sign Up -- -- --                                         |                   | Frontend Order --> home-page-main.html  |                   ----> login-page.html --> home-page.html                                         |                   |                                         --> Menu -> Account--",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cris71454/zzz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Cris71454/zzz/issues"
+  },
+  "homepage": "https://github.com/Cris71454/zzz#readme"
+}

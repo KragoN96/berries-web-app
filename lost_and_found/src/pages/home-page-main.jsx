@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/CSS/home_page_main.css';
 import landingIllustration from '../Pictures/IllustrationPack/PNG/landing_page_illustration.png';

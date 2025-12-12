@@ -84,19 +84,6 @@ body {
 
 /* ==== NAVBAR ==== */
 
-.button-menu{
-    color:white;
-    background-color: #2D9CDB;
-    border-radius: 25px;
-    border: none;
-    padding: 12px 35px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(45, 156, 219, 0.3);
-}
-
 .navigation-bar{
     background-color: rgba(14, 46, 46, 0.45);
     color: white;
@@ -105,6 +92,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 1001;
 }
 
 .topnav-left {
@@ -128,47 +117,132 @@ body {
     position: relative;
 }
 
-#menu-trans {
-    position: absolute;
-    overflow: hidden;
-    height: 0;
+/* HAMBURGER BUTTON */
+.hamburger-btn {
+    color: white;
+    background-color: #2D9CDB;
+    border-radius: 25px;
+    border: none;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(45, 156, 219, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 50px;
+    position: relative;
+    z-index: 1002;
+}
+
+.hamburger-line {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(2) {
     opacity: 0;
-    transition: height .3s ease, opacity .2s ease;
-    background: #f1f1f1;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0,0,0,.2);
-    min-width: 160px;
-    z-index: 1000;
 }
 
-#menu-trans.is-open { 
-    opacity: 1; 
+.hamburger-btn.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
 }
 
-.menu-open a{
-    color:black;
-    padding: 12px 45px;
-    text-decoration: none;
-    display: block;
-    border-radius: 15px;
-    transition: 0.3s;
-}
-
-.menu-open a:hover {
-    background-color: #ddd;
-}
-
-.img_account{
-    margin-top: -3342540px;
-    width: 24px;
-    height: 24px;
-    margin-right: -50px;
-}
-
-.menu:hover .button-menu{
+.hamburger-btn:hover {
     background-color: #1E7DB8;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(45, 156, 219, 0.4);
+}
+
+/* FULLSCREEN MENU */
+.fullscreen-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(
+        135deg,
+        #0E2E2E 0%,
+        #173E3E 50%,
+        #102F2F 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+}
+
+.fullscreen-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.menu-item {
+    color: white;
+    font-family: Georgia, serif;
+    font-size: 2.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu-item:first-child {
+    opacity: 0.5;
+}
+
+.menu-item:hover {
+    color: #4ECDC4;
+    transform: translateX(10px);
+}
+
+.account-icon {
+    width: 40px;
+    height: 40px;
+    filter: invert(1);
+}
+
+.donations-icon {
+    width: 40px;
+    height: 40px;
+    filter: invert(1);
+}
+
+.settings-icon {
+    width: 40px;
+    height: 40px;
+    filter: invert(1);
+}
+
+.news-icon {
+    width: 40px;
+    height: 40px;
+    filter: invert(1);
 }
 
 .login-button{
@@ -189,36 +263,6 @@ body {
     background-color: #5848C2;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(108, 92, 231, 0.4);
-}
-
-.news-button{
-    color:white;
-    background-color: #2D9CDB;
-    border-radius: 25px;
-    border: none;
-    padding: 12px 35px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(45, 156, 219, 0.3);
-}
-
-.newsbt:hover .news-button{
-    background-color: #1E7DB8;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(45, 156, 219, 0.4);
-}
-
-.home-button{
-    color:white;
-    background-color: #1E7DB8;
-    border-radius: 25px;
-    border: none;
-    padding: 12px 35px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
 }
 
 /* ==== MAIN LAYOUT ==== */
@@ -403,5 +447,9 @@ a {
 
     .box1-image {
         order: -1; /* optional: illustration above text on mobile */
+    }
+
+    .menu-item {
+        font-size: 2rem;
     }
 }

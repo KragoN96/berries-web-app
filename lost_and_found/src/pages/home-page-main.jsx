@@ -1,41 +1,19 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/CSS/home_page_main.css';
 import landingIllustration from '../Pictures/IllustrationPack/PNG/landing_page_illustration.png';
 import accountIcon from '../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg';
+import donationsIcon from '../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg';
+import settingsIcon from '../Pictures/IllustrationPack/SVG/gear-solid-full.svg';
+import newsIcon from '../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg';
+
 
 function HomePageMain() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [height, setHeight] = useState('0px');
-  const panelRef = useRef(null);
 
-  const openNav = () => {
-    setIsMenuOpen(true);
-    if (panelRef.current) {
-      setHeight(panelRef.current.scrollHeight + 'px');
-    }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
-
-  const closeNav = () => {
-    setIsMenuOpen(false);
-    if (panelRef.current) {
-      setHeight('0px');
-    }
-  };
-
-  useEffect(() => {
-    const panel = panelRef.current;
-    const handleTransitionEnd = () => {
-      if (!isMenuOpen) {
-        setHeight('0px');
-      }
-    };
-
-    if (panel) {
-      panel.addEventListener('transitionend', handleTransitionEnd);
-      return () => panel.removeEventListener('transitionend', handleTransitionEnd);
-    }
-  }, [isMenuOpen]);
 
   return (
     <div className="container-home">
@@ -48,45 +26,15 @@ function HomePageMain() {
         <div className="navigation-bar">
           <div className="topnav-left">
             <div className="logo">
-              <div className="homebbt">
-                <Link to="/home">
-                  <button className="home-button">Home</button>
-                </Link>
-              </div>
-
-              <div className="newsbt">
-                <Link to="/news-page">
-                  <button className="news-button">News</button>
-                </Link>
-              </div>
-
               <div className="menu">
                 <button
-                  className="button-menu"
-                  onMouseEnter={openNav}
-                  onMouseLeave={closeNav}
+                  className={`hamburger-btn ${isMenuOpen ? 'active' : ''}`}
+                  onClick={toggleMenu}
                 >
-                  Menu
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
+                  <span className="hamburger-line"></span>
                 </button>
-                <div
-                  ref={panelRef}
-                  className={`menu-open ${isMenuOpen ? 'is-open' : ''}`}
-                  id="menu-trans"
-                  style={{ height: height }}
-                  onMouseEnter={openNav}
-                  onMouseLeave={closeNav}
-                >
-                    <div className="settings-link">
-                      <Link to="/settings">Settings</Link></div>
-                    <div className="account-link">
-                      <Link to="/login">Account</Link>
-                  <img
-                    src={accountIcon}
-                    className="img_account"
-                  /></div>
-                    <div className="donations-link">
-                      <Link to="/donations">Donations</Link></div>
-                </div>
               </div>
             </div>
           </div>
@@ -97,6 +45,26 @@ function HomePageMain() {
                 <button className="login-button">Sign Up</button>
               </Link>
             </div>
+          </div>
+        </div>
+
+        {/* Full screen menu overlay */}
+        <div className={`fullscreen-menu ${isMenuOpen ? 'is-open' : ''}`}>
+          <div className="menu-content">
+            <Link to="/" className="menu-item" onClick={toggleMenu}>Home</Link>
+            <Link to="/news-page" className="menu-item" onClick={toggleMenu}>News
+              <img src={newsIcon} className="news-icon" alt="News" />
+            </Link>
+            <Link to="/settings" className="menu-item" onClick={toggleMenu}>Settings
+              <img src={settingsIcon} className="settings-icon" alt="Settings" />
+            </Link>
+            <Link to="/login" className="menu-item account-item" onClick={toggleMenu}>
+              Account
+              <img src={accountIcon} className="account-icon" alt="Account" />
+            </Link>
+            <Link to="/donations" className="menu-item" onClick={toggleMenu}>Donations
+              <img src={donationsIcon} className="donations-icon" alt="Donations" />
+            </Link>
           </div>
         </div>
 
@@ -141,7 +109,7 @@ function HomePageMain() {
             <div className="text1-box2">
               <h2>Report a lost item</h2>
               <p>Tell us what you misplaced and where you last saw it.<br></br>
-                We’ll publish the report so others can help you recover it.</p>
+                We'll publish the report so others can help you recover it.</p>
             </div>
             <div className="text2-box2">
               <h2>Browse Found Items</h2>
@@ -151,7 +119,7 @@ function HomePageMain() {
             <div className="text3-box2">
               <h2>Lost an ID or Sensitive Document?</h2>
               <p>Student IDs, passports, bank cards, and any document containing personal data are handled securely.<br></br>
-                  We’ll forward your request directly to the university office.</p>
+                  We'll forward your request directly to the university office.</p>
             </div>
           </div>
         </div>

@@ -4,39 +4,6 @@ const app = express();
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 
-// --- Stripe Donations Route --- //
-const Stripe = require("stripe");
-require("dotenv").config();
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-app.post("/api/create-checkout-session", async (req, res) => {
-  const { amount } = req.body;
-
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: { name: "Donation" },
-            unit_amount: amount * 100, // în cenți
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
-    });
-
-    res.json({ url: session.url });
-  } catch (error) {
-    console.error("Stripe error:", error);
-    res.status(500).json({ error: error.message });
-  }
-});
 
 
 

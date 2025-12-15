@@ -1,10 +1,20 @@
+const express = require("express");
+const cors = require("cors");
+const app = express();
+app.use(cors({ origin: "http://localhost:3000" }));
+app.use(express.json());
+
+
+
+
+
+
 // server.js - Backend server for IP tracking
-const express = require('express');
-const cors = require('cors');
+
 const { MongoClient } = require('mongodb');
 const https = require('https');
 
-const app = express();
+
 const PORT = 5000;
 
 // MongoDB connection
@@ -16,7 +26,7 @@ let db;
 
 // Middleware
 app.use(cors()); // Allow React app to connect
-app.use(express.json());
+
 
 // Connect to MongoDB
 MongoClient.connect(MONGO_URI)
@@ -194,4 +204,111 @@ app.listen(PORT, () => {
   console.log(`   - GET  http://localhost:${PORT}/api/track-ip`);
   console.log(`   - GET  http://localhost:${PORT}/api/locations`);
   console.log(`   - GET  http://localhost:${PORT}/api/stats\n`);
+});
+
+const bcrypt = require("bcrypt");
+
+app.post("/api/auth/register", async (req, res) => {
+  try {
+    const { fullName, email, password, university } = req.body;
+
+    if (!fullName || !email || !password) {
+      return res.status(400).json({ error: "Câmpuri obligatorii lipsă." });
+    }
+
+    const users = db.collection("users_info");
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    console.log("REGISTER BODY:", { fullName, email: normalizedEmail, university });
+
+    const existingUser = await users.findOne({ email: normalizedEmail });
+    if (existingUser) {
+      return res.status(400).json({ error: "E-mail deja folosit." });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    await users.insertOne({
+      fullName,
+      email: normalizedEmail,   
+      passwordHash,             
+      university,
+      createdAt: new Date(),
+    });
+
+    res.status(201).json({ message: "User creat cu succes" });
+  } catch (err) {
+    console.error("Register error:", err);
+    res.status(500).json({ error: "Eroare server la înregistrare." });
+  }
+});
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const users = db.collection("users_info");
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Completează email și parolă." });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    console.log("LOGIN TRY:", { email: normalizedEmail });
+
+   
+    let user = await users.findOne({ email: normalizedEmail });
+
+    
+    if (!user) {
+      user = await users.findOne({ email }); 
+    }
+
+    if (!user) {
+      console.log("LOGIN FAIL: user not found");
+      return res.status(400).json({ error: "Credențiale incorecte." });
+    }
+
+    console.log("LOGIN USER FOUND:", {
+      email: user.email,
+      hasPasswordHash: !!user.passwordHash,
+      hasPlainPassword: !!user.password,
+    });
+
+    let isMatch = false;
+
+    if (user.passwordHash) {
+      
+      isMatch = await bcrypt.compare(password, user.passwordHash);
+    } else if (user.password) {
+     
+      isMatch = password === user.password;
+    } else {
+      console.log("LOGIN FAIL: user has no password field");
+      return res
+        .status(500)
+        .json({ error: "Configurație parolă invalidă pentru acest user." });
+    }
+
+    if (!isMatch) {
+      console.log("LOGIN FAIL: wrong password");
+      return res.status(400).json({ error: "Credențiale incorecte." });
+    }
+
+    console.log("LOGIN SUCCESS for:", user.email);
+
+    res.json({
+      message: "Autentificare reușită",
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        university: user.university,
+      },
+    });
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+    res.status(500).json({ error: "Eroare server la autentificare." });
+  }
 });

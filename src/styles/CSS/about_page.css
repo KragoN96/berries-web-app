@@ -1,0 +1,192 @@
+body{
+    background-color: darkslategray;
+}
+
+.about_title{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-inline-start: 11rem;
+    border: none;
+    align-items: center;
+    margin: 0;
+    padding-top: 0rem;
+}
+
+.image{
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(215, 215, 215);
+    padding-inline-start: 20rem;
+    padding-top: 10rem;
+    
+
+}
+
+.content-story{
+
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(215, 215, 215);
+    padding-inline-start: 3rem;
+    padding-top: 2rem;
+    padding: 4rem;
+}
+
+.button-menu{
+
+    color:white;
+    background-color: #04AA6D;
+    border-radius: 30px;
+    border: none;
+    padding: 20px 60px;
+    font-size: 1rem;
+    transition-duration: 0.4s;
+
+}
+
+
+.navigation-bar{
+
+    background-color: aquamarine;
+    color: white;
+    align-items: normal;
+
+
+}
+
+.menu{
+    position: relative;
+    float: left;
+    
+}
+
+.menu-open{
+
+    display:none;
+    position: absolute ;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 15px;
+}
+
+.menu-open a{
+    color:black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    padding-left: 20 rem;
+    border-radius: 15px;
+}
+
+
+
+.menu-open a:hover {
+    background-color: #ddd;
+}
+.menu:hover .menu-open{
+    display: block;
+
+}
+.menu:hover .button-menu{
+    background-color: #3e8e41;
+    border-radius: 10px;
+}
+
+.about-button{
+    color:white;
+    background-color: #3e8e41;
+    border-radius: 10px;
+    border: none;
+    float: right;
+    text-decoration: none;
+    padding: 20px 60px;
+    font-size: 1rem;
+
+}
+
+.contact-button{
+    color:white;
+    background-color: #04AA6D;
+    border-radius: 30px;
+    border: none;
+    float: right;
+    text-decoration: none;
+    padding: 20px 60px;
+    font-size: 1rem;
+    transition-duration: 0.4s;
+
+}
+
+.contactbt:hover .contact-button{
+        background-color: #3e8e41;
+        border-radius: 10px;
+}
+
+.news-button{
+    color:white;
+    background-color: #04AA6D;
+    border-radius: 30px;
+    border: none;
+    float: left;
+    padding: 20px 60px;
+    font-size: 1rem;
+    transition-duration: 0.4s;  
+
+}
+
+.newsbt:hover .news-button{
+        background-color: #3e8e41;
+        border-radius: 10px;
+}
+
+.home-button{
+    color:white;
+    background-color: #04AA6D;
+    border-radius: 30px;
+    border: none;
+    float: left;
+    padding: 20px 60px;
+    font-size: 1rem;
+    transition-duration: 0.4s;
+
+}
+
+.homebt:hover .home-button{
+        background-color: #3e8e41;
+        border-radius: 10px;
+}
+
+.img_berries{
+
+    border-radius: 2rem;
+    display: block;
+    margin-left: 75rem;
+}
+
+.contact_title{
+    color: white;
+    padding-top: 10rem;
+}
+
+.border_navigation{
+
+    border-color: white;
+    border: 100px 200px;
+    display: none;
+}
+
+.social_media-tab{
+
+    padding-left: 80rem;
+    padding-bottom: 4rem;
+}
+
+.img_instagram{
+
+    border-radius: 15px;
+}
+
+.img_twitter{
+
+    border-radius: 15px;
+}

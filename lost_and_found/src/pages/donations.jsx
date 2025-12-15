@@ -1,12 +1,17 @@
-
 import "../styles/CSS/donations.css";
+import { Link } from "react-router-dom";
 
 function Donations() {
-  
-  const STRIPE_DONATION_LINK = "https://buy.stripe.com/test_9B600ifSu2r32hr33X3Ru00";
+  const STRIPE_DONATION_LINK =
+    "https://buy.stripe.com/test_9B600ifSu2r32hr33X3Ru00";
 
   return (
     <div className="donations-container">
+      {/* Home button */}
+      <Link to="/home-page" className="home-btn">
+        ← Home
+      </Link>
+
       <h1>Support Our Mission</h1>
       <p>Your donation helps us reunite lost items with their owners.</p>
 
@@ -17,7 +22,7 @@ function Donations() {
         rel="noopener noreferrer"
         className="donate-btn"
       >
-        Donate with Card 
+        Donate with Card
       </a>
 
       {/* Revolut section */}
@@ -26,7 +31,6 @@ function Donations() {
       </h2>
 
       <div className="donation-options">
-        {/* QR */}
         <div className="qr-section">
           <img
             src="/Pictures/revolut.qr.jpeg"
@@ -35,10 +39,8 @@ function Donations() {
           />
         </div>
 
-        {/* OR */}
         <div className="or-text">OR</div>
 
-        {/* Button link */}
         <div className="btn-section">
           <a
             href="https://revolut.me/madali1nvm"

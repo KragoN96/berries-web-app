@@ -12,7 +12,7 @@ import Register from "./pages/register";
 import ReportItem from "./pages/report-lost-item";
 import ViewItems from "./pages/view-lost-items";
 import Donations from "./pages/donations";
-
+import ResetPassword from "./pages/reset-password";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -44,7 +44,7 @@ console.log("React version:",React.version);
           <Route path="/report-lost-item" element={<ReportItem />} />
           <Route path="/view-lost-items" element={<ViewItems />} />
           <Route path="/donations" element={<Donations />} />
-
+          <Route path="/reset-password" element={<ResetPassword />} />
           {/* 404 → trimitem la /home-page */}
           <Route path="*" element={<Navigate to="/home-page" replace />} />
         </Routes>

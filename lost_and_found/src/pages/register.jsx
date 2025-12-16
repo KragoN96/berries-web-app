@@ -28,22 +28,22 @@ function Register() {
     setError("");
 
     if (!formData.fullName || !formData.email || !formData.password) {
-      setError("Te rugăm să completezi toate câmpurile obligatorii.");
+      setError("Please fill in all required fields.");
       return;
     }
 
     if (!formData.university) {
-      setError("Te rugăm să selectezi universitatea.");
+      setError("University selection is required.");
       return;
     }
 
     if (formData.password.length < 6) {
-      setError("Parola trebuie să aibă minim 6 caractere.");
+      setError("The password must be at least 6 characters long..");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Parolele nu coincid.");
+      setError("Passwords do not match.");
       return;
     }
 
@@ -59,12 +59,12 @@ function Register() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        setError(data.error || "A apărut o eroare la înregistrare.");
+        setError(data.error || "An error occurred during registration.");
         setLoading(false);
         return;
       }
 
-      alert("Cont creat cu succes! Te poți autentifica acum.");
+      alert("Account created successfully! You can now log in.");
       navigate("/login");
     } catch (err) {
       console.error("Register error:", err);
@@ -79,10 +79,10 @@ function Register() {
         
         <div className="illustration-panel">
           <div className="illustration-content">
-            <h2>Ești nou pe platformă?</h2>
+            <h2>New here?</h2>
             <p>
-              Creează-ți un cont ca să poți publica și urmări anunțuri Lost &amp;
-              Found în toate universitățile din București.
+              Create an account to publish and follow posts Lost &amp;
+              Found across all universities in Bucharest.
             </p>
             
           </div>
@@ -92,14 +92,14 @@ function Register() {
         <div className="register-container">
           <div className="register-welcome-message">
             <h2>Creare cont</h2>
-            <p>Completează datele de mai jos pentru a începe.</p>
+            <p>Fill in the details below to get started.</p>
           </div>
 
           {error && <div className="register-error">{error}</div>}
 
           <form className="register-form" onSubmit={handleSubmit}>
             <label>
-              Nume complet *
+              Full name *
               <input
                 type="text"
                 name="fullName"
@@ -111,26 +111,26 @@ function Register() {
             </label>
 
             <label>
-              E-mail universitar *
+              University email address *
               <input
                 type="email"
                 name="email"
                 className="register-input"
-                placeholder="exemplu@student.unibuc.ro"
+                placeholder="example@student.unibuc.ro"
                 value={formData.email}
                 onChange={handleChange}
               />
             </label>
 
             <label>
-              Universitate *
+              University *
               <select
                 name="university"
                 className="register-input"
                 value={formData.university}
                 onChange={handleChange}
               >
-                <option value="">Selectează universitatea</option>
+                <option value="">Select University</option>
 
                 {/* Stat */}
                 <option value="UB">Universitatea din București</option>
@@ -178,24 +178,24 @@ function Register() {
             </label>
 
             <label>
-              Parolă *
+              Password *
               <input
                 type="password"
                 name="password"
                 className="register-input"
-                placeholder="Minim 6 caractere"
+                placeholder="At least 6 characters"
                 value={formData.password}
                 onChange={handleChange}
               />
             </label>
 
             <label>
-              Confirmă parola *
+              Confirm password *
               <input
                 type="password"
                 name="confirmPassword"
                 className="register-input"
-                placeholder="Reintrodu parola"
+                placeholder="password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
               />
@@ -211,7 +211,7 @@ function Register() {
           </form>
 
           <div className="register-login-link">
-            Ai deja cont? <Link to="/login">Autentifică-te aici</Link>.
+            Already have an account? <Link to="/login">Log in now</Link>.
           </div>
         </div>
       </div>

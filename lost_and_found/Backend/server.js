@@ -19,6 +19,11 @@ let db;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.post("/auth/forgot-password", (req, res) => {
+  console.log("HIT /auth/forgot-password", req.body);
+  return res.json({ ok: true, where: "server.js", body: req.body });
+});
+
 
 // Connect to MongoDB
 MongoClient.connect(MONGO_URI)
@@ -199,7 +204,7 @@ app.post("/api/auth/register", async (req, res) => {
     const { fullName, email, password, university } = req.body;
 
     if (!fullName || !email || !password) {
-      return res.status(400).json({ error: "Câmpuri obligatorii lipsă." });
+      return res.status(400).json({ error: "Missing required fields." });
     }
 
     const users = db.collection(USERS_COLLECTION);
@@ -210,7 +215,7 @@ app.post("/api/auth/register", async (req, res) => {
     console.log("REGISTER: checking existing user...");
     const existingUser = await users.findOne({ email: normalizedEmail });
     if (existingUser) {
-      return res.status(400).json({ error: "E-mail deja folosit." });
+      return res.status(400).json({ error: "Email already in use." });
     }
 
     console.log("REGISTER: hashing password...");
@@ -231,7 +236,7 @@ app.post("/api/auth/register", async (req, res) => {
       collection: USERS_COLLECTION,
     });
 
-    return res.status(201).json({ message: "User creat cu succes", id: result.insertedId });
+    return res.status(201).json({ message: "Account created successfully", id: result.insertedId });
   } catch (err) {
     console.error("Register error:", err);
     return res.status(500).json({ error: "Eroare server la înregistrare." });
@@ -245,7 +250,7 @@ app.post("/api/auth/login", async (req, res) => {
     const users = db.collection(USERS_COLLECTION);
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Completează email și parolă." });
+      return res.status(400).json({ error: "Please enter both email and password." });
     }
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -256,20 +261,20 @@ app.post("/api/auth/login", async (req, res) => {
 
     if (!user) {
       console.log("LOGIN FAIL: user not found");
-      return res.status(400).json({ error: "Credențiale incorecte." });
+      return res.status(400).json({ error: "Incorrect email or password." });
     }
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
 
     if (!isMatch) {
       console.log("LOGIN FAIL: wrong password");
-      return res.status(400).json({ error: "Credențiale incorecte." });
+      return res.status(400).json({ error: "Incorrect email or password." });
     }
 
     console.log("LOGIN SUCCESS for:", user.email);
 
     res.json({
-      message: "Autentificare reușită",
+      message: "Login successful",
       user: {
         id: user._id,
         fullName: user.fullName,
@@ -282,6 +287,140 @@ app.post("/api/auth/login", async (req, res) => {
     res.status(500).json({ error: "Eroare server la autentificare." });
   }
 });
+
+
+
+require("dotenv").config();
+
+app.post("/api/auth/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const genericMsg = { message: "If this email exists, you'll receive a reset link shortly." };
+    if (!email) return res.status(400).json({ message: "Email lipsă." });
+
+    // dacă DB nu e încă setat
+    if (!db) return res.status(503).json({ message: "Baza de date nu este conectată." });
+
+    const users = db.collection("users_info");
+
+    // IMPORTANT: în funcție de cum ai salvat userii, poate fi "Email" sau "username"
+    const user = await users.findOne({ email });
+    if (!user) return res.json(genericMsg);
+
+    const token = crypto.randomBytes(32).toString("hex");
+    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+
+    const resetPasswordExpires = new Date(Date.now() + 15 * 60 * 1000);
+
+    await users.updateOne(
+      { _id: user._id },
+      { $set: { resetPasswordToken: tokenHash, resetPasswordExpires } }
+    );
+
+    const resetLink =
+      `${process.env.FRONTEND_URL}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+
+   await sendEmail({
+  to: email,
+  subject: "Password Reset – Berries Lost & Found",
+  html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
+      <h2>Password Reset</h2>
+      <p>You recently requested to reset your password for your <b>Berries Lost & Found</b> account.</p>
+
+      <p>Please click the link below to set a new password:</p>
+
+      <p>
+        <a href="${resetLink}" style="
+          display: inline-block;
+          padding: 10px 16px;
+          background-color: #4ECDC4;
+          color: #000;
+          text-decoration: none;
+          border-radius: 6px;
+          font-weight: bold;
+        ">
+          Reset Password
+        </a>
+      </p>
+
+      <p>This link will expire in <b>15 minutes</b>.</p>
+
+      <p>If you did not request a password reset, please ignore this email.</p>
+
+      <p style="margin-top: 24px; font-size: 12px; color: #555;">
+        — Lost & Found Team
+      </p>
+    </div>
+  `,
+});
+
+
+    return res.json(genericMsg);
+  } catch (err) {
+    console.error("forgot-password error:", err);
+    return res.status(500).json({ message: "Eroare server." });
+  }
+});
+
+
+// 2) Reset password (setează parola nouă)
+app.post("/api/auth/reset-password", async (req, res) => {
+  try {
+    const { email, token, newPassword } = req.body;
+
+    if (!email || !token || !newPassword) {
+      return res.status(400).json({ message: "Date lipsă." });
+    }
+
+    if (!db) return res.status(503).json({ message: "Baza de date nu este conectată." });
+
+    const users = db.collection("users_info");
+
+    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+
+    // caută user cu token valid + expirare
+    const user = await users.findOne({
+      email,
+      resetPasswordToken: tokenHash,
+      resetPasswordExpires: { $gt: new Date() },
+    });
+
+    if (!user) return res.status(400).json({ message: "Token invalid sau expirat." });
+
+    // hash parola nouă
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await users.updateOne(
+      { _id: user._id },
+      {
+        $set: { passwordHash: hashedPassword },
+        $unset: { resetPasswordToken: "", resetPasswordExpires: "" },
+      }
+    );
+
+    return res.json({ message: "Parola a fost schimbată cu succes." });
+  } catch (err) {
+    console.error("reset-password error:", err);
+    return res.status(500).json({ message: "Eroare server." });
+  }
+});
+
+
+
+const crypto = require("crypto");
+//import { sendEmail } from "./sendEmail.js";
+
+const User = require("./User");
+const { sendEmail } = require("./sendEmail");
+
+
+
+
+
+
 
 // Start server
 app.listen(PORT, () => {

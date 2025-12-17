@@ -2,6 +2,9 @@
   "name": "lost_and_found",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.x"
+},
   "dependencies": {
     "nodemailer": "^7.0.11",
     "react": "^18.2.0",

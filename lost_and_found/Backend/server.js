@@ -38,11 +38,19 @@ let db;
 
 
 // Middleware
+const allowedOrigins = [
+  "https://berries-app-f9t3l.ondigitalocean.app",
+  "http://localhost:3000",
+];
+
 app.use(cors({
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: (origin, cb) => {
+    // permite și requests fără origin (ex: Postman)
+    if (!origin) return cb(null, true);
+    return allowedOrigins.includes(origin) ? cb(null, true) : cb(new Error("CORS blocked"));
+  },
 }));
+
 app.use(express.json());
 app.post("/auth/forgot-password", (req, res) => {
   console.log("HIT /auth/forgot-password", req.body);
@@ -333,9 +341,6 @@ app.post("/api/auth/login", async (req, res) => {
     return res.status(500).json({ error: "Eroare server la autentificare." });
   }
 });
-
-
-
 
 app.post("/api/auth/forgot-password", async (req, res) => {
   try {

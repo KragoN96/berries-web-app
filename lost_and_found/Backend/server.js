@@ -3,7 +3,10 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const https = require("https");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+const { sendEmail } = require("./sendEmail");
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -424,20 +427,9 @@ app.post("/api/auth/reset-password", async (req, res) => {
     return res.status(500).json({ message: "Eroare server." });
   }
 });
-
-
-
-const crypto = require("crypto");
 //import { sendEmail } from "./sendEmail.js";
 
 const User = require("./User");
-const { sendEmail } = require("./sendEmail");
-
-
-
-
-
-
 
 // Start server
 app.listen(PORT, () => {

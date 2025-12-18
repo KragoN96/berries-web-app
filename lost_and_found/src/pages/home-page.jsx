@@ -90,13 +90,13 @@ function HomePage() {
               <img src={newsIcon} className="news-icon" alt="News" />
             </Link>
 
-            <Link to="/settings" className="menu-item" onClick={toggleMenu}>
+           {/*<Link to="/settings" className="menu-item" onClick={toggleMenu}>
               Settings
               <img src={settingsIcon} className="settings-icon" alt="Settings" />
-            </Link>
+            </Link>*/}
 
             <Link
-              to={user ? "/home-page" : "/login"}
+              to={user ? "/my-account" : "/login"}
               className="menu-item account-item"
               onClick={toggleMenu}
             >

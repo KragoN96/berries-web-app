@@ -17,42 +17,47 @@ function Login() {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    if (!email || !password) {
-      setError("Completează email și parolă.");
-      return;
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const text = await res.text();
+    let data = {};
+    try { data = JSON.parse(text); } catch {}
+
+    if (!res.ok) {
+      throw new Error(data.error || "Login failed");
     }
 
-    try {
-      setLoading(true);
+    // ✅ salvăm userul CORECT în context + localStorage
+    login({
+      id: data.user.id,
+      fullName: data.user.fullName,
+      email: data.user.email,
+      university: data.user.university,
+      token: data.token,
+    });
 
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
+    // ✅ navigare către RUTĂ, nu fișier
+    navigate("/home-page-main");
 
-      const data = await res.json().catch(() => ({}));
+  } catch (err) {
+    console.error("Login error:", err);
+    setError(err.message || "Server connection error.");
+  } finally {
+    setLoading(false);
+  }
+};
 
-      if (!res.ok) {
-        setError(data.error || "Invalid login credentials.");
-        setLoading(false);
-        return;
-      }
-        login(data.user);
-      
-      
 
-      alert("Te-ai autentificat cu succes!");
-      navigate("/home-page");
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Eroare de conexiune la server.");
-      setLoading(false);
-    }
-  };
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

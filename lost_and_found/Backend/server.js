@@ -6,18 +6,39 @@ const https = require("https");
 const bcrypt = require("bcrypt");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // MongoDB connection
-const MONGO_URI = "mongodb://localhost:27017/";
-const DB_NAME = "ip_location";
+require("dotenv").config();
+
+// MongoDB connection
+const MONGO_URI = process.env.MONGO_URI;
+const DB_NAME = process.env.DB_NAME || "ip_location";
+
+if (!MONGO_URI) {
+  console.error("Missing MONGO_URI env var");
+  process.exit(1);
+}
+
 const TRACKING_COLLECTION = "ip_locations"; // pentru IP tracking
 const USERS_COLLECTION = "users_info";      // pentru utilizatori (email + passwordHash)
 
 let db;
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  "https://berries-app-f9t3l.ondigitalocean.app",
+  "http://localhost:3000",
+];
+
+app.use(cors({
+  origin: (origin, cb) => {
+    // permite și requests fără origin (ex: Postman)
+    if (!origin) return cb(null, true);
+    return allowedOrigins.includes(origin) ? cb(null, true) : cb(new Error("CORS blocked"));
+  },
+}));
+
 app.use(express.json());
 app.post("/auth/forgot-password", (req, res) => {
   console.log("HIT /auth/forgot-password", req.body);
@@ -287,10 +308,6 @@ app.post("/api/auth/login", async (req, res) => {
     res.status(500).json({ error: "Eroare server la autentificare." });
   }
 });
-
-
-
-require("dotenv").config();
 
 app.post("/api/auth/forgot-password", async (req, res) => {
   try {

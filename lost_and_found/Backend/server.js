@@ -460,7 +460,6 @@ app.post("/api/auth/reset-password", async (req, res) => {
 //import { sendEmail } from "./sendEmail.js";
 
 const User = require("./User");
-const { sendEmail } = require("./sendEmail");
 
 app.patch("/api/auth/change-email", requireAuth, async (req, res) => {
   try {

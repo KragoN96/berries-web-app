@@ -5,7 +5,7 @@ import "../styles/CSS/home_page_main.css";
 import landingIllustration from "../Pictures/IllustrationPack/PNG/landing_page_illustration.png";
 import accountIcon from "../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg";
 import donationsIcon from "../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg";
-import settingsIcon from "../Pictures/IllustrationPack/SVG/gear-solid-full.svg";
+//import settingsIcon from "../Pictures/IllustrationPack/SVG/gear-solid-full.svg";
 import newsIcon from "../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg";
 
 import { useAuth } from "../context/AuthContext";
@@ -90,13 +90,13 @@ function HomePage() {
               <img src={newsIcon} className="news-icon" alt="News" />
             </Link>
 
-            <Link to="/settings" className="menu-item" onClick={toggleMenu}>
+           {/*<Link to="/settings" className="menu-item" onClick={toggleMenu}>
               Settings
               <img src={settingsIcon} className="settings-icon" alt="Settings" />
-            </Link>
+            </Link>*/}
 
             <Link
-              to={user ? "/home-page" : "/login"}
+              to={user ? "/my-account" : "/login"}
               className="menu-item account-item"
               onClick={toggleMenu}
             >

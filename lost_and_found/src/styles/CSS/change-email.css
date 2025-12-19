@@ -1,0 +1,174 @@
+/* ================================
+   Change Email – Lost & Found
+================================ */
+
+:root {
+  --lf-bg: #0b141a;
+  --lf-card: rgba(255, 255, 255, 0.04);
+  --lf-border: rgba(255, 255, 255, 0.12);
+  --lf-text: #e8f0f5;
+  --lf-muted: rgba(232, 240, 245, 0.65);
+  --lf-accent: #4ECDC4;
+  --lf-accent-dark: #22b8af;
+  --lf-danger: #ff5b7a;
+  --lf-success: #3ddc97;
+  --lf-shadow: 0 18px 60px rgba(0,0,0,0.45);
+}
+
+/* PAGE */
+.ce-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 500px at 15% 0%, rgba(78,205,196,0.10), transparent 60%),
+    radial-gradient(800px 500px at 90% 10%, rgba(78,205,196,0.08), transparent 60%),
+    var(--lf-bg);
+  color: var(--lf-text);
+}
+
+/* CARD */
+.ce-card {
+  width: 100%;
+  max-width: 460px;
+  background: linear-gradient(
+    180deg,
+    var(--lf-card),
+    rgba(255,255,255,0.015)
+  );
+  border: 1px solid var(--lf-border);
+  border-radius: 20px;
+  padding: 22px 22px 24px;
+  box-shadow: var(--lf-shadow);
+  backdrop-filter: blur(10px);
+}
+
+/* TITLE */
+.ce-card h1 {
+  margin: 0 0 14px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+/* ALERTS */
+.ce-error {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 91, 122, 0.16);
+  border: 1px solid rgba(255, 91, 122, 0.4);
+  color: #ffd0da;
+  font-weight: 800;
+}
+
+.ce-success {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(61, 220, 151, 0.18);
+  border: 1px solid rgba(61, 220, 151, 0.45);
+  color: #c8ffe6;
+  font-weight: 800;
+}
+
+/* FORM */
+.ce-card form {
+  display: grid;
+  gap: 12px;
+}
+
+.ce-card label {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--lf-text);
+}
+
+/* INPUTS */
+.ce-card input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  background: rgba(78,205,196,0.10); /* 👈 culoare subtilă */
+  border: 1px solid rgba(78,205,196,0.45); /* 👈 contur vizibil */
+
+  color: var(--lf-text);
+  outline: none;
+
+  transition: 
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+
+.ce-card input::placeholder {
+  color: rgba(232,240,245,0.5);
+}
+
+.ce-card input:focus {
+  border-color: rgba(78,205,196,0.75);
+  box-shadow: 0 0 0 4px rgba(78,205,196,0.18);
+}
+
+/* BUTTON */
+.ce-card button[type="submit"] {
+  margin-top: 6px;
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-weight: 900;
+  cursor: pointer;
+  background: var(--lf-accent);
+  color: #071316;
+  transition: transform 0.15s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.ce-card button[type="submit"]:hover {
+  background: var(--lf-accent-dark);
+  transform: translateY(-1px);
+}
+
+.ce-card button[type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* BACK BUTTON */
+.ce-back {
+  margin-top: 14px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--lf-muted);
+  border-radius: 999px;
+  padding: 9px 12px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.ce-back:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--lf-text);
+  transform: translateY(-1px);
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .ce-card {
+    padding: 18px;
+  }
+
+  .ce-card h1 {
+    font-size: 24px;
+  }
+}

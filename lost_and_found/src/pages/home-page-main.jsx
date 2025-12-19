@@ -1,12 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import '../styles/CSS/home_page_main.css';
 import landingIllustration from '../Pictures/IllustrationPack/PNG/landing_page_illustration.png';
 import accountIcon from '../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg';
 import donationsIcon from '../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg';
-import settingsIcon from '../Pictures/IllustrationPack/SVG/gear-solid-full.svg';
+//import settingsIcon from '../Pictures/IllustrationPack/SVG/gear-solid-full.svg';
 import newsIcon from '../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg';
-
 
 function HomePageMain() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,18 +50,31 @@ function HomePageMain() {
         {/* Full screen menu overlay */}
         <div className={`fullscreen-menu ${isMenuOpen ? 'is-open' : ''}`}>
           <div className="menu-content">
-            <Link to="/" className="menu-item" onClick={toggleMenu}>Home</Link>
-            <Link to="/news-page" className="menu-item" onClick={toggleMenu}>News
+
+            {/* 🔴 HOME – DEZACTIVAT */}
+            {/*
+            <Link to="/" className="menu-item" onClick={toggleMenu}>
+              Home
+            </Link>
+            */}
+
+            <Link to="/news-page" className="menu-item" onClick={toggleMenu}>
+              News
               <img src={newsIcon} className="news-icon" alt="News" />
             </Link>
-            <Link to="/settings" className="menu-item" onClick={toggleMenu}>Settings
+
+            {/*Link to="/settings" className="menu-item" onClick={toggleMenu}>
+              Settings
               <img src={settingsIcon} className="settings-icon" alt="Settings" />
-            </Link>
+            </Link>*/}
+
             <Link to="/login" className="menu-item account-item" onClick={toggleMenu}>
-              Account
+             My Account
               <img src={accountIcon} className="account-icon" alt="Account" />
             </Link>
-            <Link to="/donations" className="menu-item" onClick={toggleMenu}>Donations
+
+            <Link to="/donations" className="menu-item" onClick={toggleMenu}>
+              Donations
               <img src={donationsIcon} className="donations-icon" alt="Donations" />
             </Link>
           </div>
@@ -96,6 +108,7 @@ function HomePageMain() {
                 </div>
               </div>
             </div>
+
             <div className="box1-image">
               <img
                 src={landingIllustration}
@@ -108,18 +121,26 @@ function HomePageMain() {
           <div className="box2">
             <div className="text1-box2">
               <h2>Report a lost item</h2>
-              <p>Tell us what you misplaced and where you last saw it.<br></br>
-                We'll publish the report so others can help you recover it.</p>
+              <p>
+                Tell us what you misplaced and where you last saw it.<br />
+                We'll publish the report so others can help you recover it.
+              </p>
             </div>
+
             <div className="text2-box2">
               <h2>Browse Found Items</h2>
-              <p>See items students have already reported.<br></br>
-                  Your backpack, laptop, or ID might already be listed.</p>
+              <p>
+                See items students have already reported.<br />
+                Your backpack, laptop, or ID might already be listed.
+              </p>
             </div>
+
             <div className="text3-box2">
               <h2>Lost an ID or Sensitive Document?</h2>
-              <p>Student IDs, passports, bank cards, and any document containing personal data are handled securely.<br></br>
-                  We'll forward your request directly to the university office.</p>
+              <p>
+                Student IDs, passports, bank cards, and any document containing personal data are handled securely.<br />
+                We'll forward your request directly to the university office.
+              </p>
             </div>
           </div>
         </div>

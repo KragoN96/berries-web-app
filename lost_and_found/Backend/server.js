@@ -1,8 +1,12 @@
 // server.js - Backend server for IP tracking + auth
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const https = require("https");
+const itemsRoutes = require("./lost_items/items.routes");
+const uploadsRoutes = require("./uploads.routes");
+const requireAuth = require("./middleware/requireAuth");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const { sendEmail } = require("./sendEmail");
@@ -28,6 +32,11 @@ const USERS_COLLECTION = "users_info";      // pentru utilizatori (email + passw
 
 let db;
 
+
+
+
+
+
 // Middleware
 const allowedOrigins = [
   "https://berries-app-f9t3l.ondigitalocean.app",
@@ -47,6 +56,19 @@ app.post("/auth/forgot-password", (req, res) => {
   console.log("HIT /auth/forgot-password", req.body);
   return res.json({ ok: true, where: "server.js", body: req.body });
 });
+
+app.use((req, res, next) => {
+  req.db = db;
+  next();
+});
+
+app.use("/api/items", itemsRoutes);
+app.use((req, res, next) => {
+  req.db = db;
+  next();
+});
+app.use("/api/uploads", uploadsRoutes);
+
 
 
 // Connect to MongoDB
@@ -267,6 +289,7 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
+const jwt = require("jsonwebtoken");
 
 app.post("/api/auth/login", async (req, res) => {
   try {
@@ -278,10 +301,9 @@ app.post("/api/auth/login", async (req, res) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-
     console.log("LOGIN TRY:", { email: normalizedEmail });
 
-    let user = await users.findOne({ email: normalizedEmail });
+    const user = await users.findOne({ email: normalizedEmail });
 
     if (!user) {
       console.log("LOGIN FAIL: user not found");
@@ -297,18 +319,26 @@ app.post("/api/auth/login", async (req, res) => {
 
     console.log("LOGIN SUCCESS for:", user.email);
 
-    res.json({
-      message: "Login successful",
-      user: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        university: user.university,
-      },
+    // ✅ JWT token
+    const token = jwt.sign(
+      { id: user._id.toString(), email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    return res.json({
+  message: "Login successful",
+  token,
+  user: {
+    id: user._id.toString(),
+    fullName: user.fullName,
+    email: user.email,
+    university: user.university,
+  },
     });
   } catch (err) {
     console.error("LOGIN ERROR:", err);
-    res.status(500).json({ error: "Eroare server la autentificare." });
+    return res.status(500).json({ error: "Eroare server la autentificare." });
   }
 });
 
@@ -430,6 +460,54 @@ app.post("/api/auth/reset-password", async (req, res) => {
 //import { sendEmail } from "./sendEmail.js";
 
 const User = require("./User");
+const { sendEmail } = require("./sendEmail");
+
+app.patch("/api/auth/change-email", requireAuth, async (req, res) => {
+  try {
+    const { newEmail, password } = req.body;
+    const userId = req.user.id;
+
+    if (!newEmail || !password) {
+      return res.status(400).json({ error: "Missing fields." });
+    }
+
+    const users = db.collection(USERS_COLLECTION);
+
+    const user = await users.findOne({ _id: new ObjectId(userId) });
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // 🔐 verificăm parola
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Incorrect password." });
+    }
+
+    const normalizedEmail = newEmail.trim().toLowerCase();
+
+    // 🔁 verificăm dacă emailul există deja
+    const emailExists = await users.findOne({ email: normalizedEmail });
+    if (emailExists) {
+      return res.status(400).json({ error: "Email already in use." });
+    }
+
+    // ✅ update email
+    await users.updateOne(
+      { _id: user._id },
+      { $set: { email: normalizedEmail, updatedAt: new Date() } }
+    );
+
+    return res.json({
+      message: "Email updated successfully",
+      email: normalizedEmail,
+    });
+
+  } catch (err) {
+    console.error("CHANGE EMAIL ERROR:", err);
+    res.status(500).json({ error: "Server error." });
+  }
+});
 
 // Start server
 app.listen(PORT, () => {

@@ -4,7 +4,6 @@ import "../styles/CSS/login.css";
 import universityIllustration from "../Pictures/IllustrationPack/PNG/login_illustration.png";
 import { useAuth } from "../context/AuthContext";
 
-
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,17 +12,18 @@ function Login() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
- const { login } = useAuth();
+  const { login } = useAuth();
 
+  // ✅ alege automat backend-ul (local vs prod)
+  const API_URL =
+    window.location.hostname === "localhost"
+      ? "http://localhost:5000"
+      : "https://berries-web-app.onrender.com";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    if (!email || !password) {
-      setError("Completează email și parolă.");
-      return;
-    }
+    setLoading(true);
 
     try {
       setLoading(true);
@@ -34,22 +34,31 @@ function Login() {
         body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      const data = await res.json().catch(() => ({}));
+      const text = await res.text();
+      let data = {};
+      try {
+        data = JSON.parse(text);
+      } catch {}
 
       if (!res.ok) {
-        setError(data.error || "Invalid login credentials.");
-        setLoading(false);
-        return;
+        throw new Error(data.error || "Login failed");
       }
-        login(data.user);
-      
-      
 
-      alert("Te-ai autentificat cu succes!");
-      navigate("/home-page");
+      // ✅ salvăm userul CORECT în context + localStorage
+      login({
+        id: data.user.id,
+        fullName: data.user.fullName,
+        email: data.user.email,
+        university: data.user.university,
+        token: data.token,
+      });
+
+      // ✅ navigare către RUTĂ, nu fișier
+      navigate("/home-page-main");
     } catch (err) {
       console.error("Login error:", err);
-      setError("Eroare de conexiune la server.");
+      setError(err.message || "Server connection error.");
+    } finally {
       setLoading(false);
     }
   };
@@ -81,11 +90,7 @@ function Login() {
             <h3>Login</h3>
           </div>
 
-          <form
-            className="credentials-input"
-            onSubmit={handleSubmit}
-            noValidate
-          >
+          <form className="credentials-input" onSubmit={handleSubmit} noValidate>
             {error && <div className="login-error">{error}</div>}
 
             <label htmlFor="email">Email Address</label>
@@ -156,11 +161,7 @@ function Login() {
               <Link to="/register">Don't have an account?</Link>
             </div>
 
-            <button
-              type="submit"
-              className="login-submit-button"
-              disabled={loading}
-            >
+            <button type="submit" className="login-submit-button" disabled={loading}>
               {loading ? "Se conectează..." : "Login"}
             </button>
           </form>

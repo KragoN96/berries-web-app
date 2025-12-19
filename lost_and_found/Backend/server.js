@@ -507,3 +507,14 @@ app.patch("/api/auth/change-email", requireAuth, async (req, res) => {
     res.status(500).json({ error: "Server error." });
   }
 });
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📊 API endpoints:`);
+  console.log(`   - GET  http://localhost:${PORT}/api/track-ip`);
+  console.log(`   - GET  http://localhost:${PORT}/api/locations`);
+  console.log(`   - GET  http://localhost:${PORT}/api/stats`);
+  console.log(`   - POST http://localhost:${PORT}/api/auth/register`);
+  console.log(`   - POST http://localhost:${PORT}/api/auth/login\n`);
+});

@@ -26,7 +26,9 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/api/auth/login`, {
+      setLoading(true);
+
+      const res = await fetch("https://berries-web-app.onrender.com/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim(), password }),

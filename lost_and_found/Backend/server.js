@@ -4,12 +4,12 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const https = require("https");
-const bcrypt = require("bcrypt");
 const itemsRoutes = require("./lost_items/items.routes");
 const uploadsRoutes = require("./uploads.routes");
 const requireAuth = require("./middleware/requireAuth");
+const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-
+const { sendEmail } = require("./sendEmail");
 
 
 const app = express();
@@ -508,11 +508,6 @@ app.patch("/api/auth/change-email", requireAuth, async (req, res) => {
     res.status(500).json({ error: "Server error." });
   }
 });
-
-
-
-
-
 
 // Start server
 app.listen(PORT, () => {

@@ -10,7 +10,7 @@ export function useIPTracker() {
     // Track IP when component mounts
     const trackIP = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/track-ip');
+        const response = await fetch('https://berries-web-app.onrender.com/api/track-ip');
         const data = await response.json();
         
         if (data.success) {

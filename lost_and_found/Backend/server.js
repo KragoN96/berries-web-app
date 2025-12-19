@@ -52,8 +52,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.post("/auth/forgot-password", (req, res) => {
-  console.log("HIT /auth/forgot-password", req.body);
+app.post("/api/auth/forgot-password", (req, res) => {
+  console.log("HIT /api/auth/forgot-password", req.body);
   return res.json({ ok: true, where: "server.js", body: req.body });
 });
 
@@ -285,7 +285,7 @@ app.post("/api/auth/register", async (req, res) => {
     return res.status(201).json({ message: "Account created successfully", id: result.insertedId });
   } catch (err) {
     console.error("Register error:", err);
-    return res.status(500).json({ error: "Eroare server la înregistrare." });
+    return res.status(500).json({ error: "Server error on registration." });
   }
 });
 
@@ -338,7 +338,7 @@ app.post("/api/auth/login", async (req, res) => {
     });
   } catch (err) {
     console.error("LOGIN ERROR:", err);
-    return res.status(500).json({ error: "Eroare server la autentificare." });
+    return res.status(500).json({ error: "Server error on login." });
   }
 });
 
@@ -347,10 +347,10 @@ app.post("/api/auth/forgot-password", async (req, res) => {
     const { email } = req.body;
 
     const genericMsg = { message: "If this email exists, you'll receive a reset link shortly." };
-    if (!email) return res.status(400).json({ message: "Email lipsă." });
+    if (!email) return res.status(400).json({ message: "Email required." });
 
     // dacă DB nu e încă setat
-    if (!db) return res.status(503).json({ message: "Baza de date nu este conectată." });
+    if (!db) return res.status(503).json({ message: "Database not connected." });
 
     const users = db.collection("users_info");
 
@@ -410,7 +410,7 @@ app.post("/api/auth/forgot-password", async (req, res) => {
     return res.json(genericMsg);
   } catch (err) {
     console.error("forgot-password error:", err);
-    return res.status(500).json({ message: "Eroare server." });
+    return res.status(500).json({ message: "Server error." });
   }
 });
 
@@ -421,10 +421,10 @@ app.post("/api/auth/reset-password", async (req, res) => {
     const { email, token, newPassword } = req.body;
 
     if (!email || !token || !newPassword) {
-      return res.status(400).json({ message: "Date lipsă." });
+      return res.status(400).json({ message: "Missing data." });
     }
 
-    if (!db) return res.status(503).json({ message: "Baza de date nu este conectată." });
+    if (!db) return res.status(503).json({ message: "Database not connected." });
 
     const users = db.collection("users_info");
 
@@ -437,7 +437,7 @@ app.post("/api/auth/reset-password", async (req, res) => {
       resetPasswordExpires: { $gt: new Date() },
     });
 
-    if (!user) return res.status(400).json({ message: "Token invalid sau expirat." });
+    if (!user) return res.status(400).json({ message: "Invalid or expired token." });
 
     // hash parola nouă
     const salt = await bcrypt.genSalt(10);
@@ -451,10 +451,10 @@ app.post("/api/auth/reset-password", async (req, res) => {
       }
     );
 
-    return res.json({ message: "Parola a fost schimbată cu succes." });
+    return res.json({ message: "Password changed successfully." });
   } catch (err) {
     console.error("reset-password error:", err);
-    return res.status(500).json({ message: "Eroare server." });
+    return res.status(500).json({ message: "Server error." });
   }
 });
 //import { sendEmail } from "./sendEmail.js";
@@ -506,15 +506,4 @@ app.patch("/api/auth/change-email", requireAuth, async (req, res) => {
     console.error("CHANGE EMAIL ERROR:", err);
     res.status(500).json({ error: "Server error." });
   }
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📊 API endpoints:`);
-  console.log(`   - GET  http://localhost:${PORT}/api/track-ip`);
-  console.log(`   - GET  http://localhost:${PORT}/api/locations`);
-  console.log(`   - GET  http://localhost:${PORT}/api/stats`);
-  console.log(`   - POST http://localhost:${PORT}/api/auth/register`);
-  console.log(`   - POST http://localhost:${PORT}/api/auth/login\n`);
 });

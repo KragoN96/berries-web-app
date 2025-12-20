@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/CSS/view-lost-items.css";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://berries-web-app.onrender.com";
 
 const UNIVERSITIES_BUCHAREST = [
   'Academia de Politie "Alexandru Ioan Cuza"',

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/CSS/report-lost-item.css";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://berries-web-app.onrender.com";
 
 const UNIVERSITIES_BUCHAREST = [
   'Academia de Politie "Alexandru Ioan Cuza"',

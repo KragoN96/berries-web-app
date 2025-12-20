@@ -18,7 +18,7 @@ export default function ForgotPassword() {
       const res = await fetch("https://berries-web-app.onrender.com/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email.trim().toLowerCase() }),
       });
 
       const text = await res.text();

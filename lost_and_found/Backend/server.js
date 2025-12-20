@@ -1,5 +1,4 @@
 // server.js - Backend server for IP tracking + auth
-require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
@@ -52,10 +51,10 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.post("/api/auth/forgot-password", (req, res) => {
-  console.log("HIT /api/auth/forgot-password", req.body);
-  return res.json({ ok: true, where: "server.js", body: req.body });
-});
+// app.post("/api/auth/forgot-password", (req, res) => {
+//  console.log("HIT /api/auth/forgot-password", req.body);
+//  return res.json({ ok: true, where: "server.js", body: req.body });
+//});
 
 app.use((req, res, next) => {
   req.db = db;
@@ -319,6 +318,12 @@ app.post("/api/auth/login", async (req, res) => {
 
     console.log("LOGIN SUCCESS for:", user.email);
 
+      if (!process.env.JWT_SECRET) {
+  console.error("Missing JWT_SECRET env var");
+  return res.status(500).json({ error: "Server misconfigured: JWT_SECRET missing." });
+}
+
+
     // ✅ JWT token
     const token = jwt.sign(
       { id: user._id.toString(), email: user.email },
@@ -344,7 +349,9 @@ app.post("/api/auth/login", async (req, res) => {
 
 app.post("/api/auth/forgot-password", async (req, res) => {
   try {
-    const { email } = req.body;
+    const rawEmail = req.body.email;
+    const email = rawEmail?.trim().toLowerCase();
+
 
     const genericMsg = { message: "If this email exists, you'll receive a reset link shortly." };
     if (!email) return res.status(400).json({ message: "Email required." });
@@ -352,10 +359,12 @@ app.post("/api/auth/forgot-password", async (req, res) => {
     // dacă DB nu e încă setat
     if (!db) return res.status(503).json({ message: "Database not connected." });
 
-    const users = db.collection("users_info");
+   const users = db.collection(USERS_COLLECTION);
+
 
     // IMPORTANT: în funcție de cum ai salvat userii, poate fi "Email" sau "username"
     const user = await users.findOne({ email });
+
     if (!user) return res.json(genericMsg);
 
     const token = crypto.randomBytes(32).toString("hex");
@@ -367,6 +376,12 @@ app.post("/api/auth/forgot-password", async (req, res) => {
       { _id: user._id },
       { $set: { resetPasswordToken: tokenHash, resetPasswordExpires } }
     );
+
+    if (!process.env.FRONTEND_URL) {
+      console.error("Missing FRONTEND_URL env var");
+    return res.status(500).json({ message: "Server misconfigured: FRONTEND_URL missing." });
+    }
+
 
     const resetLink =
       `${process.env.FRONTEND_URL}/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
@@ -418,7 +433,10 @@ app.post("/api/auth/forgot-password", async (req, res) => {
 // 2) Reset password (setează parola nouă)
 app.post("/api/auth/reset-password", async (req, res) => {
   try {
-    const { email, token, newPassword } = req.body;
+    const rawEmail = req.body.email;
+    const email = rawEmail?.trim().toLowerCase();
+    const { token, newPassword } = req.body;
+
 
     if (!email || !token || !newPassword) {
       return res.status(400).json({ message: "Missing data." });
@@ -426,7 +444,7 @@ app.post("/api/auth/reset-password", async (req, res) => {
 
     if (!db) return res.status(503).json({ message: "Database not connected." });
 
-    const users = db.collection("users_info");
+    const users = db.collection(USERS_COLLECTION);
 
     const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
 

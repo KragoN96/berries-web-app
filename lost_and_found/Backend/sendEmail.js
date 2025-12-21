@@ -1,20 +1,48 @@
-const sgMail = require("@sendgrid/mail");
+let transporter = null;
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+async function sendViaSMTP({ to, subject, html }) {
+  const nodemailer = require("nodemailer");
 
-async function sendEmail({ to, subject, html }) {
-  if (!process.env.SENDGRID_API_KEY) {
-    throw new Error("SENDGRID_API_KEY missing");
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
   }
 
-  const msg = {
+  await transporter.sendMail({
+    from: `"Berries Lost & Found" <${process.env.SMTP_USER}>`,
     to,
-    from: process.env.FROM_EMAIL,
     subject,
     html,
-  };
+  });
+}
 
-  await sgMail.send(msg);
+async function sendViaSendGrid({ to, subject, html }) {
+  const sgMail = require("@sendgrid/mail");
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+  const from = process.env.SENDGRID_FROM || process.env.SMTP_USER;
+
+  await sgMail.send({
+    to,
+    from,
+    subject,
+    html,
+  });
+}
+
+async function sendEmail(payload) {
+  // Prioritize SendGrid if configured
+  if (process.env.SENDGRID_API_KEY) {
+    return sendViaSendGrid(payload);
+  }
+  return sendViaSMTP(payload);
 }
 
 module.exports = { sendEmail };

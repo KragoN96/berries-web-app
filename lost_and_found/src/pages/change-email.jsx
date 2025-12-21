@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/CSS/change-email.css";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://berries-web-app.onrender.com";
 
 export default function ChangeEmail() {
   const { user, login } = useAuth();

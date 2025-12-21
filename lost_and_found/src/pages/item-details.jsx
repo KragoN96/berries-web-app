@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/CSS/item-details.css";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://berries-web-app.onrender.com";
 
 export default function ItemDetails() {
   const { id } = useParams();

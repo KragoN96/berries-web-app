@@ -415,7 +415,7 @@ app.post("/api/auth/forgot-password", async (req, res) => {
       <p>If you did not request a password reset, please ignore this email.</p>
 
       <p style="margin-top: 24px; font-size: 12px; color: #555;">
-        — Lost & Found Team
+        — Berries Team
       </p>
     </div>
   `,

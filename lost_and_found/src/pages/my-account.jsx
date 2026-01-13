@@ -157,9 +157,9 @@ export default function MyAccount() {
           Need help? Contact us at{" "}
           <a
             className="ma-support-link"
-            href="mailto:lostandfoundbucharesct@gmail.com"
+            href="mailto:berries.lostfound@gmail.com"
           >
-            lostandfoundbucharesct@gmail.com
+            berries.lostfound@gmail.com
           </a>
         </div>
       </div>

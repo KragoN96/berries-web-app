@@ -5,7 +5,6 @@ import "../styles/CSS/home_page_main.css";
 import landingIllustration from "../Pictures/IllustrationPack/PNG/landing_page_illustration.png";
 import accountIcon from "../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg";
 import donationsIcon from "../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg";
-//import settingsIcon from "../Pictures/IllustrationPack/SVG/gear-solid-full.svg";
 import newsIcon from "../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg";
 
 import { useAuth } from "../context/AuthContext";
@@ -20,7 +19,7 @@ function HomePage() {
 
   const handleLogout = () => {
     logout();
-    navigate("/home"); // înapoi la landing
+    navigate("/home"); // Back to landing page
   };
 
   const reportLink = user ? "/report-lost-item" : "/login";
@@ -51,7 +50,7 @@ function HomePage() {
             </div>
           </div>
 
-          {/* top-right: mesaj + logout */}
+          {/* top-right: messsage + logout */}
           <div className="topnav-right">
             {user ? (
               <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -82,7 +81,7 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Full screen menu overlay (FĂRĂ Home) */}
+        {/* Full screen menu overlay (WITHOUT Home) */}
         <div className={`fullscreen-menu ${isMenuOpen ? "is-open" : ""}`}>
           <div className="menu-content">
             <Link to="/news-page" className="menu-item" onClick={toggleMenu}>

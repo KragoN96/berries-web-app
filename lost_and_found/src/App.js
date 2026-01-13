@@ -21,7 +21,7 @@ import ChangeEmail from "./pages/change-email";
 function App() {
   // Track user IP când se încarcă aplicația
   useEffect(() => {
-    fetch("http://localhost:5000/api/track-ip")
+    fetch("https://berries-web-app.onrender.com/api/track-ip")
       .then((res) => res.json())
       .then((data) => {
         console.log("✓ User tracked:", data);

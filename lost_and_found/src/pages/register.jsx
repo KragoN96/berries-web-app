@@ -91,7 +91,7 @@ function Register() {
        
         <div className="register-container">
           <div className="register-welcome-message">
-            <h2>Creare cont</h2>
+            <h2>Create an account</h2>
             <p>Fill in the details below to get started.</p>
           </div>
 
@@ -195,7 +195,7 @@ function Register() {
                 type="password"
                 name="confirmPassword"
                 className="register-input"
-                placeholder="password"
+                placeholder="Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
               />
@@ -206,7 +206,7 @@ function Register() {
               className="register-submit-button"
               disabled={loading}
             >
-              {loading ? "Se creează contul..." : "Creează cont"}
+              {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
 

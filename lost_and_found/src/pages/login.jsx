@@ -177,7 +177,7 @@ function Login() {
             </div>
 
             <button type="submit" className="login-submit-button" disabled={loading}>
-              {loading ? "Se conectează..." : "Login"}
+              {loading ? "Connecting..." : "Login"}
             </button>
           </form>
         </section>

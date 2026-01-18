@@ -4,8 +4,11 @@ import '../styles/CSS/home_page_main.css';
 import landingIllustration from '../Pictures/IllustrationPack/PNG/landing_page_illustration.png';
 import accountIcon from '../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg';
 import donationsIcon from '../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg';
-//import settingsIcon from '../Pictures/IllustrationPack/SVG/gear-solid-full.svg';
+// import settingsIcon from '../Pictures/IllustrationPack/SVG/gear-solid-full.svg';
 import newsIcon from '../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg';
+import instagram from '../Pictures/IllustrationPack/SVG/instagram-brands-solid-full.svg';
+import linkedin from '../Pictures/IllustrationPack/SVG/linkedin-in-brands-solid-full.svg';
+
 
 function HomePageMain() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -141,6 +144,22 @@ function HomePageMain() {
                 Student IDs, passports, bank cards, and any document containing personal data are handled securely.<br />
                 We'll forward your request directly to the university office.
               </p>
+            </div>
+          </div>
+          <div className="footer-page">
+            <p>&copy; 2026 Berries. All rights reserved.</p>
+
+            <div className="footer-links">
+              <a href="https://instagram.com/_.aris._24/" target="_blank" rel="noopener noreferrer">
+                <div className="instagram">
+                  <img src={instagram} alt="Instagram" />
+                </div>
+              </a>
+              <a href="https://www.linkedin.com/in/aris-dasc%C4%83lu-807212290/" target="_blank" rel="noopener noreferrer">
+                <div className="linkedin">
+                  <img src={linkedin} alt="LinkedIn" />
+                </div>
+              </a>
             </div>
           </div>
         </div>

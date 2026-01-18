@@ -6,6 +6,9 @@ import landingIllustration from "../Pictures/IllustrationPack/PNG/landing_page_i
 import accountIcon from "../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg";
 import donationsIcon from "../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg";
 import newsIcon from "../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg";
+import instagram from '../Pictures/IllustrationPack/SVG/instagram-brands-solid-full.svg';
+import linkedin from '../Pictures/IllustrationPack/SVG/linkedin-in-brands-solid-full.svg';
+
 
 import { useAuth } from "../context/AuthContext";
 
@@ -126,8 +129,8 @@ function HomePage() {
         <div className="home-table">
           <div className="box1">
             <div className="box1-text">
-              <h2>Berries</h2>
-              <h1>Lost &amp; Found</h1>
+              <h1>Berries</h1>
+              <h2>Lost &amp; Found</h2>
               <p>Your trusted platform where you can find your belongings fast!</p>
 
               <div className="buttons-container">
@@ -187,6 +190,22 @@ function HomePage() {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="footer-page">
+        <p>&copy; 2026 Berries. All rights reserved.</p>
+
+        <div className="footer-links">
+          <a href="https://instagram.com/_.aris._24/" target="_blank" rel="noopener noreferrer">
+            <div className="instagram">
+              <img src={instagram} alt="Instagram" />
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/aris-dasc%C4%83lu-807212290/" target="_blank" rel="noopener noreferrer">
+            <div className="linkedin">
+              <img src={linkedin} alt="LinkedIn" />
+            </div>
+          </a>
         </div>
       </div>
     </div>

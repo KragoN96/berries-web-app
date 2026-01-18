@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import lottie from "lottie-web";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/CSS/login.css";
-import universityIllustration from "../Pictures/IllustrationPack/PNG/login_illustration.png";
+import universityIllustration from "../Pictures/IllustrationPack/SVG/login_animation.json";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
@@ -67,6 +68,20 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
+  const animationContainer = useRef(null);
+
+  useEffect(() => {
+    if (!animationContainer.current) return;
+    const anim = lottie.loadAnimation({
+      container: animationContainer.current,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      animationData: universityIllustration,
+    });
+    return () => anim.destroy();
+  }, []);
+
   return (
     <div className="container">
       <main className="login-page">
@@ -75,10 +90,10 @@ function Login() {
           <div className="illustration-content">
             <h2>Welcome Back!</h2>
             <p>Connect with your university's lost and found community</p>
-            <img
-              src={universityIllustration}
-              alt="University Life"
-              className="illustration-image"
+            <div
+              ref={animationContainer}
+              className="login-animation"
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
         </div>

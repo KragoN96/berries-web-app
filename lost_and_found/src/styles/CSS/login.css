@@ -211,6 +211,32 @@
     text-decoration: underline;
 }
 
+/* Lottie animation wrapper */
+.login-animation {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.login-animation > div,
+.login-animation svg {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 360px;
+}
+
+@media (max-width: 768px) {
+    .login-animation {
+        max-width: 320px;
+    }
+    .login-animation > div,
+    .login-animation svg {
+        max-height: 260px;
+    }
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .login-page {

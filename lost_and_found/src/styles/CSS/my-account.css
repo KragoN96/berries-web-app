@@ -12,8 +12,10 @@
 }
 
 .ma-page{
+  display: flex;           /* adaugă asta */
+  flex-direction: column;  /* coloane: conținut + footer */
   min-height: 100vh;
-  padding: 26px 16px;
+  padding: 26px 16px 0;
   background:
     radial-gradient(1200px 700px at 20% 0%, rgba(78,205,196,0.10), transparent 60%),
     radial-gradient(900px 600px at 90% 10%, rgba(78,205,196,0.08), transparent 60%),
@@ -24,6 +26,8 @@
 .ma-wrap{
   max-width: 1100px;
   margin: 0 auto;
+  flex: 1 1 auto;
+  padding-bottom: 20px;
 }
 
 .ma-topbar{
@@ -202,3 +206,57 @@
   font-weight: 700;
   opacity: 0.85;
 }
+
+.footer-page {
+    color: white;
+    text-align: center;
+    font-family: Georgia, serif;
+    padding: 28px 24px;
+    background-color: rgba(14, 46, 46, 0.85);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 170px;
+    margin-top: 0; /* păstrează; nu folosi position: absolute/fixed */
+}
+
+.footer-links {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.footer-links img {
+    width: 36px;
+    height: 36px;
+    display: block;
+    filter: invert(1);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.footer-links .instagram:hover img,
+.footer-links .linkedin:hover img {
+    filter: invert(68%) sepia(55%) saturate(411%) hue-rotate(125deg);
+    transform: scale(1.15);
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 900px) {
+
+
+    .footer-links {
+        flex-direction: row;
+        width: auto;
+        height: auto;
+        gap: 12px;
+    }
+  }

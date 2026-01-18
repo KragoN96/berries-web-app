@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/CSS/my-account.css";
+import instagram from '../Pictures/IllustrationPack/SVG/instagram-brands-solid-full.svg';
+import linkedin from '../Pictures/IllustrationPack/SVG/linkedin-in-brands-solid-full.svg';
 
 export default function MyAccount() {
   const navigate = useNavigate();
@@ -163,6 +165,22 @@ export default function MyAccount() {
           </a>
         </div>
       </div>
+            <div className="footer-page">
+              <p>&copy; 2026 Berries. All rights reserved.</p>
+      
+              <div className="footer-links">
+                <a href="https://instagram.com/_.aris._24/" target="_blank" rel="noopener noreferrer">
+                  <div className="instagram">
+                    <img src={instagram} alt="Instagram" />
+                  </div>
+                </a>
+                <a href="https://www.linkedin.com/in/aris-dasc%C4%83lu-807212290/" target="_blank" rel="noopener noreferrer">
+                  <div className="linkedin">
+                    <img src={linkedin} alt="LinkedIn" />
+                  </div>
+                </a>
+              </div>
+            </div>
     </div>
   );
 }

@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import lottie from "lottie-web";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/CSS/register.css";
+
+import registerAnimation from "../Pictures/IllustrationPack/SVG/STUDENT.json";
 
 function Register() {
   const navigate = useNavigate();
@@ -73,10 +76,25 @@ function Register() {
     }
   };
 
+  const animContainer = useRef(null);
+
+  useEffect(() => {
+    if (animContainer.current) {
+      const anim = lottie.loadAnimation({
+        container: animContainer.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: registerAnimation,
+      });
+      return () => anim.destroy();
+    }
+  }, []);
+
   return (
     <div className="container">
       <div className="register-page">
-        
+        {/* Left illustration panel */}
         <div className="illustration-panel">
           <div className="illustration-content">
             <h2>New here?</h2>
@@ -84,11 +102,15 @@ function Register() {
               Create an account to publish and follow posts Lost &amp;
               Found across all universities in Bucharest.
             </p>
-            
+            <div
+              ref={animContainer}
+              className="register-animation"
+              style={{ width: "100%", height: "auto" }}
+            />
           </div>
         </div>
 
-       
+        {/* Right registration form panel */}
         <div className="register-container">
           <div className="register-welcome-message">
             <h2>Create an account</h2>

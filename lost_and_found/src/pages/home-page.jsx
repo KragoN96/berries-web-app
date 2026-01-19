@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/CSS/home_page_main.css";
+import lottie from "lottie-web";
 
 import landingIllustration from "../Pictures/IllustrationPack/PNG/landing_page_illustration.png";
 import accountIcon from "../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg";
 import donationsIcon from "../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg";
 import newsIcon from "../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg";
-import instagram from '../Pictures/IllustrationPack/SVG/instagram-brands-solid-full.svg';
-import linkedin from '../Pictures/IllustrationPack/SVG/linkedin-in-brands-solid-full.svg';
+import instagram from "../Pictures/IllustrationPack/SVG/instagram-brands-solid-full.svg";
+import linkedin from "../Pictures/IllustrationPack/SVG/linkedin-in-brands-solid-full.svg";
 
+
+import reportAnimation from "../Pictures/IllustrationPack/SVG/404_error_page_with_cat.json";
+import browseAnimation from "../Pictures/IllustrationPack/SVG/Thinking.json";
+import secureAnimation from "../Pictures/IllustrationPack/SVG/Not_Found.json";
 
 import { useAuth } from "../context/AuthContext";
 
 function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const animContainer1 = useRef(null);
+  const animContainer2 = useRef(null);
+  const animContainer3 = useRef(null);
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -26,6 +34,46 @@ function HomePage() {
   };
 
   const reportLink = user ? "/report-lost-item" : "/login";
+
+  // Load animations
+  useEffect(() => {
+    if (animContainer1.current) {
+      const anim = lottie.loadAnimation({
+        container: animContainer1.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: reportAnimation,
+      });
+      return () => anim.destroy();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (animContainer2.current) {
+      const anim = lottie.loadAnimation({
+        container: animContainer2.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: browseAnimation,
+      });
+      return () => anim.destroy();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (animContainer3.current) {
+      const anim = lottie.loadAnimation({
+        container: animContainer3.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: secureAnimation,
+      });
+      return () => anim.destroy();
+    }
+  }, []);
 
   return (
     <div className="container-home">
@@ -56,7 +104,9 @@ function HomePage() {
           {/* top-right: messsage + logout */}
           <div className="topnav-right">
             {user ? (
-              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "16px" }}
+              >
                 <div style={{ textAlign: "right", color: "white" }}>
                   <div>
                     Glad to see you, <strong>{user.fullName}</strong>
@@ -68,7 +118,11 @@ function HomePage() {
                   )}
                 </div>
 
-                <button className="login-button" onClick={handleLogout} type="button">
+                <button
+                  className="login-button"
+                  onClick={handleLogout}
+                  type="button"
+                >
                   Logout
                 </button>
               </div>
@@ -92,7 +146,7 @@ function HomePage() {
               <img src={newsIcon} className="news-icon" alt="News" />
             </Link>
 
-           {/*<Link to="/settings" className="menu-item" onClick={toggleMenu}>
+            {/*<Link to="/settings" className="menu-item" onClick={toggleMenu}>
               Settings
               <img src={settingsIcon} className="settings-icon" alt="Settings" />
             </Link>*/}
@@ -131,7 +185,9 @@ function HomePage() {
             <div className="box1-text">
               <h1>Berries</h1>
               <h2>Lost &amp; Found</h2>
-              <p>Your trusted platform where you can find your belongings fast!</p>
+              <p>
+                Your trusted platform where you can find your belongings fast!
+              </p>
 
               <div className="buttons-container">
                 <div className="reportbt">
@@ -161,33 +217,46 @@ function HomePage() {
             </div>
           </div>
 
+          {/* Three info boxes with alternating animations */}
           <div className="box2">
-            <div className="text1-box2">
-              <h2>Report a lost item</h2>
-              <p>
-                Tell us what you misplaced and where you last saw it.
-                <br />
-                We’ll publish the report so others can help you recover it.
-              </p>
+            {/* Item 1: text LEFT + animation RIGHT */}
+            <div className="info-item info-item-left">
+              <div className="text1-box2">
+                <h2>Report a lost item</h2>
+                <p>
+                  Tell us what you misplaced and where you last saw it.
+                  <br />
+                  We'll publish the report so others can help you recover it.
+                </p>
+              </div>
+              <div className="animation-container" ref={animContainer1} />
             </div>
 
-            <div className="text2-box2">
-              <h2>Browse Found Items</h2>
-              <p>
-                See items students have already reported.
-                <br />
-                Your backpack, laptop, or ID might already be listed.
-              </p>
+            {/* Item 2: animation LEFT + text RIGHT */}
+            <div className="info-item info-item-right">
+              <div className="animation-container" ref={animContainer2} />
+              <div className="text2-box2">
+                <h2>Browse Found Items</h2>
+                <p>
+                  See items students have already reported.
+                  <br />
+                  Your backpack, laptop, or ID might already be listed.
+                </p>
+              </div>
             </div>
 
-            <div className="text3-box2">
-              <h2>Lost an ID or Sensitive Document?</h2>
-              <p>
-                Student IDs, passports, bank cards, and any document containing
-                personal data are handled securely.
-                <br />
-                We’ll forward your request directly to the university office.
-              </p>
+            {/* Item 3: text LEFT + animation RIGHT (same as Item 1) */}
+            <div className="info-item info-item-left">
+              <div className="text3-box2">
+                <h2>Lost an ID or Sensitive Document?</h2>
+                <p>
+                  Student IDs, passports, bank cards, and any document containing
+                  personal data are handled securely.
+                  <br />
+                  We'll forward your request directly to the university office.
+                </p>
+              </div>
+              <div className="animation-container" ref={animContainer3} />
             </div>
           </div>
         </div>
@@ -196,12 +265,20 @@ function HomePage() {
         <p>&copy; 2026 Berries. All rights reserved.</p>
 
         <div className="footer-links">
-          <a href="https://instagram.com/_.aris._24/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://instagram.com/_.aris._24/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="instagram">
               <img src={instagram} alt="Instagram" />
             </div>
           </a>
-          <a href="https://www.linkedin.com/in/aris-dasc%C4%83lu-807212290/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.linkedin.com/in/aris-dasc%C4%83lu-807212290/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="linkedin">
               <img src={linkedin} alt="LinkedIn" />
             </div>

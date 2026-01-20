@@ -546,6 +546,16 @@ body {
     }
 }
 
+.menu-item {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.menu-item img {
+  opacity: 1 !important;
+  filter: brightness(0) invert(1) !important;
+}
+
 @media (max-width: 500px) {
     .topnav-left span {
         flex-direction: column;

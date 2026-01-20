@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,NavLink, useNavigate } from "react-router-dom";
 import "../styles/CSS/home_page_main.css";
 import lottie from "lottie-web";
 
@@ -150,10 +150,24 @@ function HomePage() {
         {/* Full screen menu overlay (WITHOUT Home) */}
         <div className={`fullscreen-menu ${isMenuOpen ? "is-open" : ""}`}>
           <div className="menu-content">
-            <Link to="/news-page" className="menu-item" onClick={toggleMenu}>
-              News
-              <img src={newsIcon} className="news-icon" alt="News" />
-            </Link>
+            <NavLink
+  to="/news-page"
+  end
+  onClick={toggleMenu}
+  className={({ isActive }) => (isActive ? "menu-item active" : "menu-item")}
+>
+  News<img src={newsIcon} className="news-icon" alt="News" />
+</NavLink>
+           {/*<NavLink
+  to="/news-page"
+  
+  onClick={toggleMenu}
+  className={({ isActive }) => `menu-item ${isActive ? "active" : ""}`}
+>
+  News
+  <img src={newsIcon} className="news-icon" alt="News" />
+</NavLink>*/}
+
 
             
             <Link

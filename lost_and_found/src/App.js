@@ -6,7 +6,7 @@ import Home from "./pages/home-page";
 import HomePage from "./pages/home-page-main";
 //import About from "./pages/about-page";
 //import Contact from "./pages/contact-page";
-//import News from "./pages/news-page";
+import News from "./pages/news";
 import ForgotPassword from "./pages/forgot-password";
 import Register from "./pages/register";
 import ReportItem from "./pages/report-lost-item";
@@ -45,7 +45,7 @@ console.log("React version:",React.version);
          <Route path="/my-account" element={<MyAccount />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/register" element={<Register />} />
-          {/*<Route path="/news-page" element={<News />} />*/}
+          <Route path="/news-page" element={<News />} />
           <Route path="/report-lost-item" element={<ReportItem />} />
           <Route path="/view-lost-items" element={<ViewItems />} />
           <Route path="/donations" element={<Donations />} />

@@ -99,6 +99,15 @@ function HomePage() {
                 </button>
               </div>
             </div>
+            
+            {/* Desktop navigation (hidden on mobile) */}
+            <nav className="desktop-nav">
+              <Link to="/news-page">News</Link>
+              <Link to={user ? "/my-account" : "/login"}>
+                {user ? "My Account" : "Account"}
+              </Link>
+              <Link to="/donations">Donations</Link>
+            </nav>
           </div>
 
           {/* top-right: messsage + logout */}
@@ -160,11 +169,7 @@ function HomePage() {
 </NavLink>*/}
 
 
-            {/*<Link to="/settings" className="menu-item" onClick={toggleMenu}>
-              Settings
-              <img src={settingsIcon} className="settings-icon" alt="Settings" />
-            </Link>*/}
-
+            
             <Link
               to={user ? "/my-account" : "/login"}
               className="menu-item account-item"

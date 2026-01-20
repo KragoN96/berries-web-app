@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../styles/CSS/home_page_main.css";
 import lottie from "lottie-web";
+import { useAuth } from "../context/AuthContext";
 
 import landingIllustration from "../Pictures/IllustrationPack/PNG/landing_page_illustration.png";
 import accountIcon from "../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg";
@@ -17,6 +18,7 @@ import secureAnimation from "../Pictures/IllustrationPack/SVG/Not_Found.json";
 
 function HomePageMain() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuth();
   const animContainer1 = useRef(null);
   const animContainer2 = useRef(null);
   const animContainer3 = useRef(null);
@@ -87,6 +89,16 @@ function HomePageMain() {
                 </button>
               </div>
             </div>
+
+            
+            {/* Desktop navigation (hidden on mobile) */}
+            <nav className="desktop-nav">
+              <Link to="/news-page">News</Link>
+              <Link to={user ? "/my-account" : "/login"}>
+                {user ? "My Account" : "Account"}
+              </Link>
+              <Link to="/donations">Donations</Link>
+            </nav>
           </div>
 
           <div className="topnav-right">

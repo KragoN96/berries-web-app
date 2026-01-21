@@ -113,9 +113,7 @@ function HomePage() {
           {/* top-right: messsage + logout */}
           <div className="topnav-right">
             {user ? (
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "16px" }}
-              >
+              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                 <div style={{ textAlign: "right", color: "white" }}>
                   <div>
                     Glad to see you, <strong>{user.fullName}</strong>
@@ -128,7 +126,7 @@ function HomePage() {
                 </div>
 
                 <button
-                  className="login-button"
+                  className="logout-button"
                   onClick={handleLogout}
                   type="button"
                 >

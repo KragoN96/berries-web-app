@@ -1,12 +1,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import lottie from "lottie-web";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import "../styles/CSS/register.css";
 
 import registerAnimation from "../Pictures/IllustrationPack/SVG/STUDENT.json";
+import newsIcon from "../Pictures/IllustrationPack/SVG/newspaper-solid-full.svg";
+import accountIcon from "../Pictures/IllustrationPack/SVG/circle-user-solid-full.svg";
+import donationsIcon from "../Pictures/IllustrationPack/SVG/credit-card-solid-full.svg";
+import instagram from "../Pictures/IllustrationPack/SVG/instagram-brands-solid-full.svg";
+import linkedin from "../Pictures/IllustrationPack/SVG/linkedin-in-brands-solid-full.svg";
+import homeIcon from "../Pictures/IllustrationPack/SVG/house-solid-full.svg";
+import { useAuth } from "../context/AuthContext";
 
 function Register() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/home");
+    setIsMenuOpen(false);
+  };
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -92,149 +109,274 @@ function Register() {
   }, []);
 
   return (
-    <div className="container">
-      <div className="register-page">
-        {/* Left illustration panel */}
-        <div className="illustration-panel">
-          <div className="illustration-content">
-            <h2>New here?</h2>
-            <p>
-              Create an account to publish and follow posts Lost &amp;
-              Found across all universities in Bucharest.
-            </p>
-            <div
-              ref={animContainer}
-              className="register-animation"
-              style={{ width: "100%", height: "auto" }}
-            />
+    <div className="register-page-wrapper">
+      {/* NAVBAR */}
+      <div className="navigation-bar">
+        <div className="topnav-left">
+          <div className="logo">
+            <div className="menu">
+              <button
+                className={`hamburger-btn ${isMenuOpen ? "active" : ""}`}
+                onClick={toggleMenu}
+                aria-label="Open menu"
+                type="button"
+              >
+                <span className="hamburger-line"></span>
+                <span className="hamburger-line"></span>
+                <span className="hamburger-line"></span>
+              </button>
+            </div>
           </div>
+
+          <nav className="desktop-nav">
+            <Link to="/home-page-main">Home</Link>
+            <Link to="/news-page">News</Link>
+            <Link to={user ? "/my-account" : "/login"}>
+              {user ? "My Account" : "Account"}
+            </Link>
+            <Link to="/donations">Donations</Link>
+          </nav>
         </div>
 
-        {/* Right registration form panel */}
-        <div className="register-container">
-          <div className="register-welcome-message">
-            <h2>Create an account</h2>
-            <p>Fill in the details below to get started.</p>
-          </div>
-
-          {error && <div className="register-error">{error}</div>}
-
-          <form className="register-form" onSubmit={handleSubmit}>
-            <label>
-              Full name *
-              <input
-                type="text"
-                name="fullName"
-                className="register-input"
-                placeholder="Ex: Ionescu Maria"
-                value={formData.fullName}
-                onChange={handleChange}
-              />
-            </label>
-
-            <label>
-              University email address *
-              <input
-                type="email"
-                name="email"
-                className="register-input"
-                placeholder="example@student.unibuc.ro"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </label>
-
-            <label>
-              University *
-              <select
-                name="university"
-                className="register-input"
-                value={formData.university}
-                onChange={handleChange}
+        <div className="topnav-right">
+          {user ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <div style={{ textAlign: "right", color: "white" }}>
+                <div>
+                  Glad to see you, <strong>{user.fullName}</strong>
+                </div>
+              </div>
+              <button
+                className="login-button"
+                onClick={handleLogout}
+                type="button"
               >
-                <option value="">Select University</option>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="loginbt">
+              <Link to="/login">
+                <button className="login-button" type="button">
+                  Sign In
+                </button>
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
 
-                {/* Stat */}
-                <option value="UB">Universitatea din București</option>
-                <option value="UNSTPB">Politehnica București</option>
-                <option value="ASE">Academia de Studii Economice</option>
-                <option value="UMFCD">UMF „Carol Davila”</option>
-                <option value="UNARTE">
-                  Universitatea Națională de Arte
-                </option>
-                <option value="UNATC">UNATC „I. L. Caragiale”</option>
-                <option value="SNSPA">SNSPA</option>
-                <option value="UNEFS">UNEFS</option>
-                <option value="UNMB">
-                  Universitatea Națională de Muzică
-                </option>
-                <option value="ANIMV">
-                  Academia Națională de Informații
-                </option>
-                <option value="APOL">Academia de Poliție</option>
-                <option value="UNAP">
-                  Universitatea Națională de Apărare
-                </option>
+      <div className={`fullscreen-menu ${isMenuOpen ? "is-open" : ""}`}>
+        <div className="menu-content">
+          <NavLink
+            to="/home-page-main"
+            end
+            onClick={toggleMenu}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            Home<img src={homeIcon} className="home-icon" alt="Home" />
+          </NavLink>
 
-                {/* Private */}
-                <option value="SPIRU">Universitatea Spiru Haret</option>
-                <option value="HYPERION">Universitatea Hyperion</option>
-                <option value="URA">
-                  Universitatea Româno-Americană
-                </option>
-                <option value="UTM">Universitatea Titu Maiorescu</option>
-                <option value="TITULESCU">
-                  Universitatea Nicolae Titulescu
-                </option>
-                <option value="CANTEMIR">
-                  Universitatea Dimitrie Cantemir
-                </option>
-                <option value="BIOTERRA">Universitatea Bioterra</option>
-                <option value="ECOLOGICA">
-                  Universitatea Ecologică din București
-                </option>
-                <option value="ATHENAEUM">
-                  Universitatea Athenaeum
-                </option>
-              </select>
-            </label>
+          <NavLink
+            to="/news-page"
+            end
+            onClick={toggleMenu}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            News<img src={newsIcon} className="news-icon" alt="News" />
+          </NavLink>
 
-            <label>
-              Password *
-              <input
-                type="password"
-                name="password"
-                className="register-input"
-                placeholder="At least 6 characters"
-                value={formData.password}
-                onChange={handleChange}
+          <Link
+            to={user ? "/my-account" : "/login"}
+            className="menu-item account-item"
+            onClick={toggleMenu}
+          >
+            {user ? "My Account" : "Account"}
+            <img src={accountIcon} className="account-icon" alt="Account" />
+          </Link>
+
+          <Link to="/donations" className="menu-item" onClick={toggleMenu}>
+            Donations
+            <img src={donationsIcon} className="donations-icon" alt="Donations" />
+          </Link>
+        </div>
+      </div>
+
+      {/* PAGE CONTENT */}
+      <div className="container">
+        <div className="register-page">
+          {/* Left illustration panel */}
+          <div className="illustration-panel">
+            <div className="illustration-content">
+              <h2>New here?</h2>
+              <p>
+                Create an account to publish and follow posts Lost &amp;
+                Found across all universities in Bucharest.
+              </p>
+              <div
+                ref={animContainer}
+                className="register-animation"
+                style={{ width: "100%", height: "auto" }}
               />
-            </label>
-
-            <label>
-              Confirm password *
-              <input
-                type="password"
-                name="confirmPassword"
-                className="register-input"
-                placeholder="Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
-            </label>
-
-            <button
-              type="submit"
-              className="register-submit-button"
-              disabled={loading}
-            >
-              {loading ? "Creating account..." : "Create account"}
-            </button>
-          </form>
-
-          <div className="register-login-link">
-            Already have an account? <Link to="/login">Log in now</Link>.
+            </div>
           </div>
+
+          {/* Right registration form panel */}
+          <div className="register-container">
+            <div className="register-welcome-message">
+              <h2>Create an account</h2>
+              <p>Fill in the details below to get started.</p>
+            </div>
+
+            {error && <div className="register-error">{error}</div>}
+
+            <form className="register-form" onSubmit={handleSubmit}>
+              <label>
+                Full name *
+                <input
+                  type="text"
+                  name="fullName"
+                  className="register-input"
+                  placeholder="Ex: Ionescu Maria"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                />
+              </label>
+
+              <label>
+                University email address *
+                <input
+                  type="email"
+                  name="email"
+                  className="register-input"
+                  placeholder="example@student.unibuc.ro"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </label>
+
+              <label>
+                University *
+                <select
+                  name="university"
+                  className="register-input"
+                  value={formData.university}
+                  onChange={handleChange}
+                >
+                  <option value="">Select University</option>
+
+                  {/* Stat */}
+                  <option value="UB">Universitatea din București</option>
+                  <option value="UNSTPB">Politehnica București</option>
+                  <option value="ASE">Academia de Studii Economice</option>
+                  <option value="UMFCD">UMF „Carol Davila"</option>
+                  <option value="UNARTE">
+                    Universitatea Națională de Arte
+                  </option>
+                  <option value="UNATC">UNATC „I. L. Caragiale"</option>
+                  <option value="SNSPA">SNSPA</option>
+                  <option value="UNEFS">UNEFS</option>
+                  <option value="UNMB">
+                    Universitatea Națională de Muzică
+                  </option>
+                  <option value="ANIMV">
+                    Academia Națională de Informații
+                  </option>
+                  <option value="APOL">Academia de Poliție</option>
+                  <option value="UNAP">
+                    Universitatea Națională de Apărare
+                  </option>
+
+                  {/* Private */}
+                  <option value="SPIRU">Universitatea Spiru Haret</option>
+                  <option value="HYPERION">Universitatea Hyperion</option>
+                  <option value="URA">
+                    Universitatea Româno-Americană
+                  </option>
+                  <option value="UTM">Universitatea Titu Maiorescu</option>
+                  <option value="TITULESCU">
+                    Universitatea Nicolae Titulescu
+                  </option>
+                  <option value="CANTEMIR">
+                    Universitatea Dimitrie Cantemir
+                  </option>
+                  <option value="BIOTERRA">Universitatea Bioterra</option>
+                  <option value="ECOLOGICA">
+                    Universitatea Ecologică din București
+                  </option>
+                  <option value="ATHENAEUM">
+                    Universitatea Athenaeum
+                  </option>
+                </select>
+              </label>
+
+              <label>
+                Password *
+                <input
+                  type="password"
+                  name="password"
+                  className="register-input"
+                  placeholder="At least 6 characters"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </label>
+
+              <label>
+                Confirm password *
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  className="register-input"
+                  placeholder="Password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                />
+              </label>
+
+              <button
+                type="submit"
+                className="register-submit-button"
+                disabled={loading}
+              >
+                {loading ? "Creating account..." : "Create account"}
+              </button>
+            </form>
+
+            <div className="register-login-link">
+              Already have an account? <Link to="/login">Log in now</Link>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FOOTER */}
+      <div className="footer-page">
+        <p>&copy; 2026 Berries. All rights reserved.</p>
+
+        <div className="footer-links">
+          <a
+            href="https://instagram.com/_.aris._24/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="instagram">
+              <img src={instagram} alt="Instagram" />
+            </div>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/aris-dasc%C4%83lu-807212290/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="linkedin">
+              <img src={linkedin} alt="LinkedIn" />
+            </div>
+          </a>
         </div>
       </div>
     </div>

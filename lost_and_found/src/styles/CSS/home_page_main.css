@@ -229,6 +229,12 @@ body {
     transform: translateX(10px);
 }
 
+.home-icon {
+    width: 40px;
+    height: 40px;
+    filter: invert(1);
+}
+
 .account-icon {
     width: 40px;
     height: 40px;
@@ -272,6 +278,32 @@ body {
     background-color: #5848C2;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(108, 92, 231, 0.4);
+}
+
+/* LOGOUT BUTTON - Red style */
+.logout-button {
+    color: #173E3E;
+    background-color: #4ECDC4;
+    border-radius: 25px;
+    border: none;
+    text-decoration: none;
+    padding: 12px 40px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.logout-button:hover {
+    color: white;
+    background-color: #EE5A52;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+}
+
+.logout-button:active {
+    transform: translateY(0);
 }
 
 /* ==== MAIN LAYOUT ==== */
@@ -466,7 +498,7 @@ body {
     color: white;
     text-align: center;
     font-family: Georgia, serif;
-    padding: 28px 24px;
+    padding: 20px 24px;
     background-color: rgba(14, 46, 46, 0.85);
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
@@ -475,8 +507,14 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 170px;
-    }
+    min-height: auto;
+    gap: 12px;
+}
+
+.footer-page p {
+    margin: 0;
+    font-size: 0.9rem;
+}
 
 .footer-links {
     display: flex;
